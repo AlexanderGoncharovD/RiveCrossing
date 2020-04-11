@@ -42,7 +42,7 @@ public class TouchPlatform : MonoBehaviour
         _isDrag = true;
         _gameControl.triggers.ForEach(t =>
             {
-                if (t.length != length)
+                if (Mathf.CeilToInt(t.length) != length)
                     t.gameObject.SetActive(false);
             }
         );
@@ -51,11 +51,8 @@ public class TouchPlatform : MonoBehaviour
     private void OnMouseUp()
     {
        _isDrag = false;
-        if (trigger != null)
-        {
-            _gameControl.triggers.ForEach(t => t.gameObject.SetActive(true));
-        }
-        else
+        _gameControl.triggers.ForEach(t => t.gameObject.SetActive(true));
+        if (trigger == null)
         {
             RecoveryTransform();
         }

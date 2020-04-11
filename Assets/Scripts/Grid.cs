@@ -15,6 +15,7 @@ public class Grid
 	///		Карта точек уровня
 	/// </summary>
 	private List<string> _map;
+	private List<string> _solution;
 	private List<GameObject> _points = new List<GameObject>();
 
 
@@ -41,10 +42,11 @@ public class Grid
 
 	#region .ctor
 
-	public Grid(GameObject pointModel, string map)
+	public Grid(GameObject pointModel, string map, string solution)
 	{
 		_pointModel = pointModel;
 		_map = map.Split(';').ToList();
+		_solution = solution.Split(';').ToList();
 		GenerationGrid();
 	}
 
@@ -83,6 +85,9 @@ public class Grid
 				{
 					var point = MonoBehaviour.Instantiate(_pointModel, position, Quaternion.Euler(90, 0, 0));
 					point.name = $"{r}-{c}";
+					var component = point.GetComponent<Point>();
+					component.Column = c;
+					component.Row = r;
 					_points.Add(point);
 
 				}
@@ -91,26 +96,116 @@ public class Grid
 			position = new Vector3(-2, position.y - 1, 0);
 		}
 
-		// Последняя точка списка - старт уровня
-		_points.Last().GetComponent<Point>().Type = PointType.Start;
+		SetNextBackPoints();
+		SetOthersPoints();
+		_points.ForEach(p => p.GetComponent<Point>().GenerateTriggers());
+	}
 
-		// Первая точка списка - конца уровня
-		_points.First().GetComponent<Point>().Type = PointType.Finish;
-
-		foreach (var point in _points)
+	/// <summary>
+	///		Назначить следующую и предыдущую точку
+	/// </summary>
+	private void SetNextBackPoints()
+	{
+		foreach (var name in _solution)
 		{
-			var curMapIndex = _map.IndexOf(_map.First(e => e.Equals(point.name)));
-			if (curMapIndex != _map.Count-1)
+			var index = _solution.IndexOf(name);
+			var point = _points.First(p => p.name.Equals(name));
+			var component = point.GetComponent<Point>();
+			if (index != _solution.Count-1)
+				component.NextPoint = _points.First(p => p.name.Equals(_solution[index + 1])).transform;
+			if (index != 0)
+				component.BackPoint = _points.First(p => p.name.Equals(_solution[index - 1])).transform;
+		}
+	}
+
+	/// <summary>
+	///		Установить побочные точки
+	/// </summary>
+	private void SetOthersPoints()
+	{
+		for (var r = 0; r < _row; r++)
+		{
+			for (var c = 0; c < _col; c++)
 			{
-				// Получить точку по имени следующего индекса в списке _map
-				point.GetComponent<Point>().NextPoint = _points.First(e => e.name.Equals(_map[curMapIndex + 1])).transform;
-			}
-			if (curMapIndex != 0)
-			{
-				// Получить точку по имени следующего индекса в списке _map
-				point.GetComponent<Point>().BackPoint = _points.First(e => e.name.Equals(_map[curMapIndex - 1])).transform;
+				var point = _points.FirstOrDefault(p => p.name.Equals($"{r}-{c}"));
+				if (point != null)
+				{
+					point.GetComponent<Point>().OtherPoints = GetOtherPoints(point, r, c).Select(p => p.transform).ToList();
+				}
 			}
 		}
+	}
+
+	private List<GameObject> GetOtherPoints(GameObject point, int row, int col)
+	{
+		var result = new List<GameObject>();
+		var horizontalPoints = _points.Where(p => p.transform != point.transform);
+
+		// Если у точки нет ни следующей ни придыдущей точки, занчит она побочная
+		if (point.GetComponent<Point>().NextPoint == null && point.GetComponent<Point>().BackPoint == null)
+		{
+			point.GetComponent<Point>().Type = PointType.Side;
+			return result;
+		}
+
+		for (int i = row-1; i > 0; i--)
+		{
+			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
+			if (po != null)
+			{
+				if (po.transform == point.GetComponent<Point>().NextPoint)
+					break;
+				if (po.transform == point.GetComponent<Point>().BackPoint)
+					break;
+				result.Add(po); 
+				break;
+			}
+		}
+		for (int i = row + 1; i < 6; i++)
+		{
+			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
+			if (po != null)
+			{
+
+				if (po.transform == point.GetComponent<Point>().NextPoint)
+					break;
+				if (po.transform == point.GetComponent<Point>().BackPoint)
+					break;
+				result.Add(po);
+				break;
+			}
+		}
+
+		for (int i = col - 1; i > 0; i--)
+		{
+			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
+			if (po != null)
+			{
+
+				if (po.transform == point.GetComponent<Point>().NextPoint)
+					break;
+				if (po.transform == point.GetComponent<Point>().BackPoint)
+					break;
+				result.Add(po);
+				break;
+			}
+		}
+		for (int i = col + 1; i < 6; i++)
+		{
+			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
+			if (po != null)
+			{
+
+				if (po.transform == point.GetComponent<Point>().NextPoint)
+					break;
+				if (po.transform == point.GetComponent<Point>().BackPoint)
+					break;
+				result.Add(po);
+				break;
+			}
+		}
+		return result;
+
 	}
 
 	#endregion

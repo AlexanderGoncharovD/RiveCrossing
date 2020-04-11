@@ -9,7 +9,6 @@ public class GameControl : MonoBehaviour
 
     void Start()
     {
-        triggers = GameObject.FindGameObjectsWithTag("Trigger").Select(g => g.GetComponent<Trigger>()).ToList();
     }
 
     // Update is called once per frame
@@ -17,4 +16,13 @@ public class GameControl : MonoBehaviour
     {
         
     }
+
+    #region Public Methods
+
+    public void UpdateTriggerList()
+    {
+        triggers = GameObject.FindGameObjectsWithTag("Trigger").Select(g => g.GetComponent<Trigger>()).ToList();
+    }
+    
+    #endregion
 }
