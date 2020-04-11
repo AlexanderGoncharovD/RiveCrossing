@@ -140,11 +140,12 @@ public class Grid
 	{
 		var result = new List<GameObject>();
 		var horizontalPoints = _points.Where(p => p.transform != point.transform);
+		var component = point.GetComponent<Point>();
 
 		// Если у точки нет ни следующей ни придыдущей точки, занчит она побочная
-		if (point.GetComponent<Point>().NextPoint == null && point.GetComponent<Point>().BackPoint == null)
+		if (component.NextPoint == null && component.BackPoint == null)
 		{
-			point.GetComponent<Point>().Type = PointType.Side;
+			component.Type = PointType.Side;
 			return result;
 		}
 
@@ -153,9 +154,9 @@ public class Grid
 			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
 			if (po != null)
 			{
-				if (po.transform == point.GetComponent<Point>().NextPoint)
+				if (po.transform == component.NextPoint)
 					break;
-				if (po.transform == point.GetComponent<Point>().BackPoint)
+				if (po.transform == component.BackPoint)
 					break;
 				result.Add(po); 
 				break;
@@ -167,9 +168,9 @@ public class Grid
 			if (po != null)
 			{
 
-				if (po.transform == point.GetComponent<Point>().NextPoint)
+				if (po.transform == component.NextPoint)
 					break;
-				if (po.transform == point.GetComponent<Point>().BackPoint)
+				if (po.transform == component.BackPoint)
 					break;
 				result.Add(po);
 				break;
@@ -182,9 +183,9 @@ public class Grid
 			if (po != null)
 			{
 
-				if (po.transform == point.GetComponent<Point>().NextPoint)
+				if (po.transform == component.NextPoint)
 					break;
-				if (po.transform == point.GetComponent<Point>().BackPoint)
+				if (po.transform == component.BackPoint)
 					break;
 				result.Add(po);
 				break;
@@ -196,9 +197,9 @@ public class Grid
 			if (po != null)
 			{
 
-				if (po.transform == point.GetComponent<Point>().NextPoint)
+				if (po.transform == component.NextPoint)
 					break;
-				if (po.transform == point.GetComponent<Point>().BackPoint)
+				if (po.transform == component.BackPoint)
 					break;
 				result.Add(po);
 				break;

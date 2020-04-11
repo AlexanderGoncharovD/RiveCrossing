@@ -80,6 +80,31 @@ public class Point : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	///		Создать Триггер для перемещения
+	/// </summary>
+	/// <param name="pointPos">
+	///		Позиция точки
+	/// </param>
+	/// <param name="isSide">
+	///		Является ли точка побочной
+	/// </param>
+	private void CreateTrigger(Vector3 pointPos, bool isSide = false)
+	{
+		var center = (pointPos + transform.position) / 2.0f;
+		var isVertical = pointPos.y == transform.position.y;
+		var trigger = Instantiate(_trigger, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
+		var length = _lengthWay;
+
+		if (isSide)
+		{
+			length = Vector3.Distance(transform.position, pointPos);
+		}
+
+		trigger.transform.localScale = new Vector3(0.4f, length - 0.75f, 0.4f);
+		trigger.GetComponent<Trigger>().length = (int)length;
+	}
+
 	#endregion
 
 	#region Public Methods
@@ -89,27 +114,16 @@ public class Point : MonoBehaviour
 	/// </summary>
 	public void GenerateTriggers()
 	{
-
 		if (NextPoint != null)
 		{
-			var center = (NextPoint.position + transform.position) / 2.0f;
-			var isVertical = NextPoint.position.y == transform.position.y;
-			var trigger = Instantiate(_trigger, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
-
-			trigger.transform.localScale = new Vector3(0.4f, _lengthWay - 0.75f, 0.4f);
-			trigger.GetComponent<Trigger>().length = (int)_lengthWay;
+			CreateTrigger(NextPoint.position);
 		}
+
 		if (OtherPoints.Any())
 		{
 			foreach (var otherPoint in OtherPoints)
 			{
-				var center = (otherPoint.position + transform.position) / 2.0f;
-				var isVertical = otherPoint.position.y == transform.position.y;
-				var trigger = Instantiate(_trigger, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
-				var length = Vector3.Distance(transform.position, otherPoint.position);
-
-				trigger.transform.localScale = new Vector3(0.4f, length - 0.75f, 0.4f);
-				trigger.GetComponent<Trigger>().length = (int)length;
+				CreateTrigger(otherPoint.position, true);
 			}
 		}
 	}
