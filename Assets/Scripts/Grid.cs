@@ -11,7 +11,12 @@ public class Grid
 	private int _col = 5;
 	private float _step = 1.0f;
 	private GameObject _pointModel;
+	/// <summary>
+	///		Карта точек уровня
+	/// </summary>
 	private List<string> _map;
+	private List<GameObject> _points = new List<GameObject>();
+
 
 	#endregion
 
@@ -62,11 +67,13 @@ public class Grid
 	private void GenerationGrid()
 	{
 		if (!_map.Any())
-		{
 			throw new System.Exception($"{nameof(_map)} is null");
-		}
 
 		var position = new Vector3(-2.0f, 3.0f, 0.0f);
+
+		/*
+		 * Карта генерируется сверху вниз - слева направо. А уровень идёт снизу вверху
+		 */
 
 		for (var r = 0; r < _row; r++)
 		{
@@ -76,10 +83,33 @@ public class Grid
 				{
 					var point = MonoBehaviour.Instantiate(_pointModel, position, Quaternion.Euler(90, 0, 0));
 					point.name = $"{r}-{c}";
+					_points.Add(point);
+
 				}
 				position += new Vector3(1, 0, 0);
 			}
 			position = new Vector3(-2, position.y - 1, 0);
+		}
+
+		// Последняя точка списка - старт уровня
+		_points.Last().GetComponent<Point>().Type = PointType.Start;
+
+		// Первая точка списка - конца уровня
+		_points.First().GetComponent<Point>().Type = PointType.Finish;
+
+		foreach (var point in _points)
+		{
+			var curMapIndex = _map.IndexOf(_map.First(e => e.Equals(point.name)));
+			if (curMapIndex != _map.Count-1)
+			{
+				// Получить точку по имени следующего индекса в списке _map
+				point.GetComponent<Point>().NextPoint = _points.First(e => e.name.Equals(_map[curMapIndex + 1])).transform;
+			}
+			if (curMapIndex != 0)
+			{
+				// Получить точку по имени следующего индекса в списке _map
+				point.GetComponent<Point>().BackPoint = _points.First(e => e.name.Equals(_map[curMapIndex - 1])).transform;
+			}
 		}
 	}
 

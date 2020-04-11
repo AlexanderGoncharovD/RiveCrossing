@@ -17,7 +17,7 @@ public class LevelGenerator : MonoBehaviour
 	/// <summary>
 	///		Карта уровня
 	/// </summary>
-	private string _map = "6-1;4-1;3-1;3-3;2-3;0-3;";
+	private string _map = "6-1;4-1;3-1;3-3;2-3;0-3";
 
 	#endregion
 
