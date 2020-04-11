@@ -35,6 +35,7 @@ public class TouchPlatform : MonoBehaviour
 
     private void OnMouseDown()
     {
+        GetComponent<BoxCollider>().size = new Vector3(1.0f, 0.5f, 1.0f);
     }
 
     private void OnMouseDrag()
@@ -50,7 +51,8 @@ public class TouchPlatform : MonoBehaviour
 
     private void OnMouseUp()
     {
-       _isDrag = false;
+        GetComponent<BoxCollider>().size = new Vector3(1.0f, 1.0f, 1.0f);
+        _isDrag = false;
         _gameControl.triggers.ForEach(t => t.gameObject.SetActive(true));
         if (trigger == null)
         {
