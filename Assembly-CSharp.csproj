@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameControl.cs" />
+    <Compile Include="Assets\Scripts\Grid.cs" />
+    <Compile Include="Assets\Scripts\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\TouchPlatform.cs" />
     <Compile Include="Assets\Scripts\Trigger.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
