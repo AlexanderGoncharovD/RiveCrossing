@@ -112,7 +112,6 @@ public class Grid
 
 		_startpoint = _points.Last().GetComponent<Point>();
 		_startpoint.Type = PointType.Start;
-		_gameControl.PlayerWay.Add(_startpoint.transform);
 
 		_finishpoint = _points.First().GetComponent<Point>();
 		_finishpoint.Type = PointType.Finish;
@@ -176,6 +175,7 @@ public class Grid
 			var platform = MonoBehaviour.Instantiate(_platformModel, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
 			platform.transform.localScale = new Vector3(0.5f, length, 0.5f);
 			platform.GetComponent<TouchPlatform>().Points.SetPoints(onePoint, twoPoint);
+			_gameControl.Platforms.Add(platform.GetComponent<TouchPlatform>().Points);
 		}
 	}
 

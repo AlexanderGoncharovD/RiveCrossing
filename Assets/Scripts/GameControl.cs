@@ -12,7 +12,18 @@ public class GameControl : MonoBehaviour
     /// </summary>
     public Transform DragPlatform { get; set; }
 
-    public List<Transform> PlayerWay { get; set; } = new List<Transform>();
+    private List<PlatformPoints> _platforms = new List<PlatformPoints>();
+
+    public List<PlatformPoints> Platforms
+    {
+        get => _platforms;
+        set
+        {
+            _platforms = value;
+        }
+    }
+
+    public Player Player { get; set; }
 
     void Start()
     {

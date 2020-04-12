@@ -77,6 +77,7 @@ public class LevelGenerator : MonoBehaviour
 	{
 		_player = Instantiate(_playerModel, _grid.StartPoint.transform.position + new Vector3(0, 0, -1), Quaternion.identity);
 		_player.GetComponent<Player>().CurPoint = _grid.StartPoint.transform;
+		_camera.GetComponent<GameControl>().Player = _player.GetComponent<Player>();
 	}
 	
 	#endregion
