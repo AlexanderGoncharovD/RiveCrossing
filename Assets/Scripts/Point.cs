@@ -52,8 +52,20 @@ public class Point : MonoBehaviour
 	/// </summary>
 	public List<Transform> OtherPoints { get; set; } = new List<Transform>();
 
+	/// <summary>
+	///		Номер колонки точки
+	/// </summary>
 	public int Column { get; set; }
+
+	/// <summary>
+	///		Номер строки точки
+	/// </summary>
 	public int Row { get; set; }
+
+	/// <summary>
+	///		Длинная до NextPoint
+	/// </summary>
+	public int Length => Mathf.CeilToInt(_lengthWay);
 
 	#endregion
 
@@ -101,7 +113,7 @@ public class Point : MonoBehaviour
 			length = Vector3.Distance(transform.position, pointPos);
 		}
 
-		trigger.transform.localScale = new Vector3(0.4f, length - 0.75f, 0.4f);
+		trigger.transform.localScale = new Vector3(0.4f, length, 0.4f);
 		trigger.GetComponent<Trigger>().length = (int)length;
 	}
 

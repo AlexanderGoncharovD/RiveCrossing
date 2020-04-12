@@ -2,61 +2,73 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Триггер расположения пути и длины пути от точки до точки
+/// </summary>
 public class Trigger : MonoBehaviour
 {
-    private Transform _platform;
+    #region Private Fields
+
     private Quaternion _rot;
     private Vector3 _pos;
-    private Transform _transform;
-    private TouchPlatform _touchPlatform;
+    private GameControl _gameControl;
 
+    #endregion
+
+    #region Public Fields
+    
+    /// <summary>
+    ///     Длинна триггера. Длина пути от точки до точки
+    /// </summary>
     public int length;
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    ///     Позиция триггера
+    /// </summary>
+    public Vector3 Pos => _pos;
+
+    /// <summary>
+    ///     Угол триггера
+    /// </summary>
+    public Quaternion Rot => _rot;
+
+    #endregion
+
+    #region Private Methods
 
     private void Start()
     {
-        _transform = transform;
-        _rot = _transform.rotation;
-        _pos = _transform.position;
+        _rot = transform.rotation;
+        _pos = transform.position;
+        _gameControl = Camera.main.GetComponent<GameControl>();
     }
 
-    private void Update()
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    ///     Платформа попала в триггер
+    /// </summary>
+    public void PlatformeEnter()
     {
-        if (_platform != null && _touchPlatform != null)
+        if (_gameControl.DragPlatform != null)
         {
-            if (Input.GetMouseButtonUp(0))
-            {
-                if (_touchPlatform.length == length)
-                {
-                    _platform.rotation = _rot;
-                    _platform.position = _pos;
-                    _touchPlatform.SetFirstTransform();
-                }
-                else
-                {
-                    _touchPlatform.RecoveryTransform();
-                }
-            }
+            GetComponent<MeshRenderer>().enabled = true;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    /// <summary>
+    ///     Платформа вышла из триггера
+    /// </summary>
+    public void PlatformExit()
     {
-        if (other.tag.Equals($"Platform{length}"))
-        {
-            _platform = other.transform;
-            _platform.rotation = _rot;
-            _touchPlatform = _platform.GetComponent<TouchPlatform>();
-            _touchPlatform.trigger = this;
-        }
+        GetComponent<MeshRenderer>().enabled = false;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag.Equals($"Platform{length}"))
-        {
-            _platform = null;
-            _touchPlatform.trigger = null;
-            _touchPlatform = null;
-        }
-    }
+    #endregion
 }

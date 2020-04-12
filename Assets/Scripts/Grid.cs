@@ -11,11 +11,13 @@ public class Grid
 	private int _col = 5;
 	private float _step = 1.0f;
 	private GameObject _pointModel;
+	private GameObject _platformModel;
 	/// <summary>
 	///		Карта точек уровня
 	/// </summary>
 	private List<string> _map;
 	private List<string> _solution;
+	private List<string[]> _platforms = new List<string[]>();
 	private List<GameObject> _points = new List<GameObject>();
 
 
@@ -42,11 +44,17 @@ public class Grid
 
 	#region .ctor
 
-	public Grid(GameObject pointModel, string map, string solution)
+	public Grid(GameObject pointModel, GameObject platformModel, string map, string solution, string platforms)
 	{
 		_pointModel = pointModel;
+		_platformModel = platformModel;
 		_map = map.Split(';').ToList();
 		_solution = solution.Split(';').ToList();
+		var strPlatforms = platforms.Split('#').ToList();
+		foreach (var platform in strPlatforms)
+		{
+			_platforms.Add(platform.Split(';').ToArray());
+		}
 		GenerationGrid();
 	}
 
@@ -99,6 +107,7 @@ public class Grid
 		SetNextBackPoints();
 		SetOthersPoints();
 		_points.ForEach(p => p.GetComponent<Point>().GenerateTriggers());
+		GenerationPlatforms();
 	}
 
 	/// <summary>
@@ -111,8 +120,10 @@ public class Grid
 			var index = _solution.IndexOf(name);
 			var point = _points.First(p => p.name.Equals(name));
 			var component = point.GetComponent<Point>();
+
 			if (index != _solution.Count-1)
 				component.NextPoint = _points.First(p => p.name.Equals(_solution[index + 1])).transform;
+
 			if (index != 0)
 				component.BackPoint = _points.First(p => p.name.Equals(_solution[index - 1])).transform;
 		}
@@ -136,6 +147,25 @@ public class Grid
 		}
 	}
 
+	/// <summary>
+	///		Генерировать начальные платформы
+	/// </summary>
+	private void GenerationPlatforms()
+	{
+		foreach (var item in _platforms)
+		{
+			var onePoint = _points.First(p => p.name.Equals(item[0])).transform;
+			var twoPoint = _points.First(p => p.name.Equals(item[1])).transform;
+			var center = (onePoint.position + twoPoint.position) / 2.0f;
+			var length = Vector3.Distance(onePoint.position, twoPoint.position);
+			var isVertical = onePoint.position.y == twoPoint.position.y;
+
+			var platform = MonoBehaviour.Instantiate(_platformModel, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
+			platform.transform.localScale = new Vector3(0.5f, length, 0.5f);
+		}
+	}
+
+
 	private List<GameObject> GetOtherPoints(GameObject point, int row, int col)
 	{
 		var result = new List<GameObject>();
@@ -146,7 +176,7 @@ public class Grid
 		if (component.NextPoint == null && component.BackPoint == null)
 		{
 			component.Type = PointType.Side;
-			return result;
+			//return result;
 		}
 
 		for (int i = row-1; i > 0; i--)

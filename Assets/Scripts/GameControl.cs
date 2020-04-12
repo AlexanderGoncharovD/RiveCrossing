@@ -7,6 +7,11 @@ public class GameControl : MonoBehaviour
 {
     public List<Trigger> triggers = new List<Trigger>();
 
+    /// <summary>
+    ///     Платформа, которую тащем
+    /// </summary>
+    public Transform DragPlatform { get; set; }
+
     void Start()
     {
     }
