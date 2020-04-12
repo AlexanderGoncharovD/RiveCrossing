@@ -19,7 +19,9 @@ public class Grid
 	private List<string> _solution;
 	private List<string[]> _platforms = new List<string[]>();
 	private List<GameObject> _points = new List<GameObject>();
-
+	private Point _startpoint;
+	private Point _finishpoint;
+	private GameControl _gameControl;
 
 	#endregion
 
@@ -40,12 +42,16 @@ public class Grid
 	/// </summary>
 	public float Step => _step;
 
+	public Point StartPoint => _startpoint;
+	public Point FinishPoint => _finishpoint;
+
 	#endregion
 
 	#region .ctor
 
 	public Grid(GameObject pointModel, GameObject platformModel, string map, string solution, string platforms)
 	{
+		_gameControl = Camera.main.GetComponent<GameControl>();
 		_pointModel = pointModel;
 		_platformModel = platformModel;
 		_map = map.Split(';').ToList();
@@ -103,6 +109,13 @@ public class Grid
 			}
 			position = new Vector3(-2, position.y - 1, 0);
 		}
+
+		_startpoint = _points.Last().GetComponent<Point>();
+		_startpoint.Type = PointType.Start;
+		_gameControl.PlayerWay.Add(_startpoint.transform);
+
+		_finishpoint = _points.First().GetComponent<Point>();
+		_finishpoint.Type = PointType.Finish;
 
 		SetNextBackPoints();
 		SetOthersPoints();
@@ -162,6 +175,7 @@ public class Grid
 
 			var platform = MonoBehaviour.Instantiate(_platformModel, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
 			platform.transform.localScale = new Vector3(0.5f, length, 0.5f);
+			platform.GetComponent<TouchPlatform>().Points.SetPoints(onePoint, twoPoint);
 		}
 	}
 

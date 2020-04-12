@@ -57,6 +57,8 @@ public class TouchPlatform : MonoBehaviour
 
     public bool IsDrag => _isDrag;
 
+    public PlatformPoints Points { get; set; } = new PlatformPoints();
+
     #endregion
 
     private void Start()
@@ -137,6 +139,7 @@ public class TouchPlatform : MonoBehaviour
         {
             transform.rotation = trigger.Rot;
             transform.position = trigger.Pos;
+            Points.SetPoints(trigger.Points.First, trigger.Points.Second);
             CacheFirstTransform();
         }
     }

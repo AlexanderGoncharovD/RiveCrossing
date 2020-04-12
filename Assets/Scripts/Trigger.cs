@@ -36,6 +36,8 @@ public class Trigger : MonoBehaviour
     /// </summary>
     public Quaternion Rot => _rot;
 
+    public PlatformPoints Points { get; set; } = new PlatformPoints();
+
     #endregion
 
     #region Private Methods

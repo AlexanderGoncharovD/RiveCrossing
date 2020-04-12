@@ -71,6 +71,10 @@ public class Point : MonoBehaviour
 
 	#region Private Methods
 
+	private void Start()
+	{
+	}
+
 	private void Update()
 	{
 		DebugingUpdate();
@@ -95,26 +99,27 @@ public class Point : MonoBehaviour
 	/// <summary>
 	///		Создать Триггер для перемещения
 	/// </summary>
-	/// <param name="pointPos">
+	/// <param name="point">
 	///		Позиция точки
 	/// </param>
 	/// <param name="isSide">
 	///		Является ли точка побочной
 	/// </param>
-	private void CreateTrigger(Vector3 pointPos, bool isSide = false)
+	private void CreateTrigger(Transform point, bool isSide = false)
 	{
-		var center = (pointPos + transform.position) / 2.0f;
-		var isVertical = pointPos.y == transform.position.y;
+		var center = (point.position + transform.position) / 2.0f;
+		var isVertical = point.position.y == transform.position.y;
 		var trigger = Instantiate(_trigger, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
 		var length = _lengthWay;
 
 		if (isSide)
 		{
-			length = Vector3.Distance(transform.position, pointPos);
+			length = Vector3.Distance(transform.position, point.position);
 		}
 
 		trigger.transform.localScale = new Vector3(0.4f, length, 0.4f);
 		trigger.GetComponent<Trigger>().length = (int)length;
+		trigger.GetComponent<Trigger>().Points.SetPoints(point, transform);
 	}
 
 	#endregion
@@ -128,14 +133,14 @@ public class Point : MonoBehaviour
 	{
 		if (NextPoint != null)
 		{
-			CreateTrigger(NextPoint.position);
+			CreateTrigger(NextPoint);
 		}
 
 		if (OtherPoints.Any())
 		{
 			foreach (var otherPoint in OtherPoints)
 			{
-				CreateTrigger(otherPoint.position, true);
+				CreateTrigger(otherPoint, true);
 			}
 		}
 	}

@@ -7,6 +7,7 @@ public class LevelGenerator : MonoBehaviour
 	#region Private Fileds
 
 	private Grid _grid;
+	private GameObject _player;
 
 	/// <summary>
 	///		Модель игровой точки
@@ -19,6 +20,12 @@ public class LevelGenerator : MonoBehaviour
 	/// </summary>
 	[SerializeField]
 	private GameObject _platformModel;
+
+	/// <summary>
+	///		Модель игрока
+	/// </summary>
+	[SerializeField]
+	private GameObject _playerModel;
 
 	/// <summary>
 	///		Карта уровня
@@ -51,6 +58,7 @@ public class LevelGenerator : MonoBehaviour
 	{
 		_camera = Camera.main;
 		LoadLevel();
+		SpawnPlayer();
 	}
 
 	/// <summary>
@@ -60,7 +68,15 @@ public class LevelGenerator : MonoBehaviour
 	{
 		_grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
 		_camera.GetComponent<GameControl>().UpdateTriggerList();
+	}
 
+	/// <summary>
+	///		Создать игрока
+	/// </summary>
+	private void SpawnPlayer()
+	{
+		_player = Instantiate(_playerModel, _grid.StartPoint.transform.position + new Vector3(0, 0, -1), Quaternion.identity);
+		_player.GetComponent<Player>().CurPoint = _grid.StartPoint.transform;
 	}
 	
 	#endregion
