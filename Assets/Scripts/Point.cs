@@ -81,7 +81,7 @@ public class Point : MonoBehaviour
 
 		
 	}
-
+	
 	/// <summary>
 	///		Выполняется при отладке приложения. Обновляется каждый кадр
 	/// </summary>

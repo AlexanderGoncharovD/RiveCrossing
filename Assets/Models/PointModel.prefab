@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5486342160020240419}
   m_Layer: 0
   m_Name: PointModel
-  m_TagString: Untagged
+  m_TagString: Point
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,7 +90,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &5486342160020240419

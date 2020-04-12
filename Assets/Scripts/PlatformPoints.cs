@@ -23,4 +23,26 @@ public class PlatformPoints
         return null;
 
     }
+
+    /// <summary>
+    ///     Сравнить платформу с точками
+    /// </summary>
+    /// <param name="onePoint">
+    ///     первая точка
+    /// </param>
+    /// <param name="twoPoint">
+    ///     Вторая точка
+    /// </param>
+    /// <returns>
+    ///     Существует ли платформа с такими точками
+    /// </returns>
+    public bool Comapre(Transform onePoint, Transform twoPoint)
+    {
+        if ((First == onePoint && Second == twoPoint)
+            || (First == twoPoint && Second == onePoint))
+        {
+            return true;
+        }
+        return false;
+    }
 }

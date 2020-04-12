@@ -11,17 +11,8 @@ public class GameControl : MonoBehaviour
     ///     Платформа, которую тащем
     /// </summary>
     public Transform DragPlatform { get; set; }
-
-    private List<PlatformPoints> _platforms = new List<PlatformPoints>();
-
-    public List<PlatformPoints> Platforms
-    {
-        get => _platforms;
-        set
-        {
-            _platforms = value;
-        }
-    }
+    
+    public List<PlatformPoints> Platforms { get; set; } = new List<PlatformPoints>();
 
     public Player Player { get; set; }
 
