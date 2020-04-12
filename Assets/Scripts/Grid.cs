@@ -173,7 +173,7 @@ public class Grid
 			var isVertical = onePoint.position.y == twoPoint.position.y;
 
 			var platform = MonoBehaviour.Instantiate(_platformModel, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
-			platform.transform.localScale = new Vector3(0.5f, length, 0.5f);
+			platform.GetComponent<BoxCollider>().size = new Vector3(0.5f, length, 0.5f);
 			platform.GetComponent<TouchPlatform>().Points.SetPoints(onePoint, twoPoint);
 			_gameControl.Platforms.Add(platform.GetComponent<TouchPlatform>().Points);
 		}

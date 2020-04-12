@@ -16,6 +16,8 @@ public class GameControl : MonoBehaviour
 
     public Player Player { get; set; }
 
+    public Sprite[] PlatformsSprites;
+
     void Start()
     {
     }

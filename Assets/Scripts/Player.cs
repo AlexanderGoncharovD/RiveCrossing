@@ -106,6 +106,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///     Попытаться добавить точку в путь
+    /// </summary>
+    /// <param name="point">
+    ///     Точка
+    /// </param>
     public void TryAddPoint(Point point)
     {
         _nextPoint = point.transform;

@@ -63,11 +63,12 @@ public class TouchPlatform : MonoBehaviour
 
     private void Start()
     {
-        _collider = GetComponent<BoxCollider>();
-        length = Mathf.CeilToInt(transform.localScale.y);
-        tag = $"Platform{length}";
         _camera = Camera.main;
         _gameControl = _camera.GetComponent<GameControl>();
+        _collider = GetComponent<BoxCollider>();
+        length = Mathf.CeilToInt(_collider.size.y);
+        transform.GetComponentInChildren<SpriteRenderer>().sprite = _gameControl.PlatformsSprites[length - 1];
+        tag = $"Platform{length}";
         CacheFirstTransform();
     }
 

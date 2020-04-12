@@ -73,6 +73,7 @@ public class Point : MonoBehaviour
 
 	private void Start()
 	{
+		transform.rotation = Quaternion.Euler(Random.Range(0, 360), 90, 90);
 	}
 
 	private void Update()
