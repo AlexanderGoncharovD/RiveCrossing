@@ -103,6 +103,7 @@ public class Grid
 					component.Column = c;
 					component.Row = r;
 					_points.Add(point);
+					_gameControl.pointsColliders.Add(point.GetComponent<CapsuleCollider>());
 
 				}
 				position += new Vector3(1, 0, 0);

@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameControl : MonoBehaviour
 {
     public List<Trigger> triggers = new List<Trigger>();
+    public List<CapsuleCollider> pointsColliders = new List<CapsuleCollider>();
 
     /// <summary>
     ///     Платформа, которую тащем

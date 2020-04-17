@@ -57,7 +57,10 @@ public class Player : MonoBehaviour
     {
         _way.Add(CurPoint);
         _isDraw = true;
-        //UpdatePosition();
+        //  Отключить трггеры платформ
+        _gameControl.triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = false);
+        //  Включить зону коллайдера точки
+        _gameControl.pointsColliders.ForEach(p => p.enabled = true);
     }
 
     public void UpdatePosition()
@@ -87,6 +90,10 @@ public class Player : MonoBehaviour
                 CurPoint = _way.Last();
             }
             _way.Clear();
+            //  Включить трггеры платформ
+            _gameControl.triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = true);
+            //  Отключить зону коллайдера точки
+            _gameControl.pointsColliders.ForEach(p => p.enabled = false);
         }
         else
         {

@@ -103,9 +103,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1600
-        width: 512
-        height: 500
+        y: 678
+        width: 340
+        height: 412
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,10 +122,10 @@ TextureImporter:
       name: Platform_2
       rect:
         serializedVersion: 2
-        x: 512
-        y: 1100
-        width: 512
-        height: 1000
+        x: 0
+        y: 1199
+        width: 340
+        height: 900
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +142,10 @@ TextureImporter:
       name: Platform_3
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 600
-        width: 512
-        height: 1500
+        x: 340
+        y: 687
+        width: 340
+        height: 1412
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,8 +162,8 @@ TextureImporter:
       name: IceFloe
       rect:
         serializedVersion: 2
-        x: 0
-        y: 877
+        x: 680
+        y: 1588
         width: 512
         height: 512
       alignment: 0
