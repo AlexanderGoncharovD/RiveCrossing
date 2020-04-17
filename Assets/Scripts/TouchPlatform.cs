@@ -37,6 +37,8 @@ public class TouchPlatform : MonoBehaviour
     /// </summary>
     private BoxCollider _collider;
 
+    private Animator _animator;
+
     #endregion
 
     #region Public Fields
@@ -66,6 +68,7 @@ public class TouchPlatform : MonoBehaviour
         _camera = Camera.main;
         _gameControl = _camera.GetComponent<GameControl>();
         _collider = GetComponent<BoxCollider>();
+        _animator = GetComponent<Animator>();
         length = Mathf.CeilToInt(_collider.size.y);
         transform.GetComponentInChildren<SpriteRenderer>().sprite = _gameControl.PlatformsSprites[length - 1];
         tag = $"Platform{length}";
@@ -111,6 +114,8 @@ public class TouchPlatform : MonoBehaviour
     private void OnMouseDown()
     {
         _collider.enabled = false;
+        _animator.Play("Move");
+
     }
 
     private void OnMouseDrag()
@@ -131,6 +136,8 @@ public class TouchPlatform : MonoBehaviour
         _isDrag = false;
         _gameControl.DragPlatform = null;
         _gameControl.triggers.ForEach(t => t.gameObject.SetActive(true));
+
+        _animator.Play("Idle");
 
         if (trigger == null)
         {

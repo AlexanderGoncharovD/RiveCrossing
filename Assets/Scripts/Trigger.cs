@@ -47,6 +47,7 @@ public class Trigger : MonoBehaviour
         _rot = transform.rotation;
         _pos = transform.position;
         _gameControl = Camera.main.GetComponent<GameControl>();
+        GetComponentInChildren<SpriteRenderer>().sprite = _gameControl.PlatformsSprites[length - 1];
     }
 
     #endregion
@@ -60,7 +61,7 @@ public class Trigger : MonoBehaviour
     {
         if (_gameControl.DragPlatform != null)
         {
-            GetComponent<MeshRenderer>().enabled = true;
+            GetComponentInChildren<SpriteRenderer>().enabled = true;
         }
     }
 
@@ -69,7 +70,7 @@ public class Trigger : MonoBehaviour
     /// </summary>
     public void PlatformExit()
     {
-        GetComponent<MeshRenderer>().enabled = false;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
     }
 
     #endregion

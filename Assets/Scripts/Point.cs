@@ -118,7 +118,7 @@ public class Point : MonoBehaviour
 			length = Vector3.Distance(transform.position, point.position);
 		}
 
-		trigger.transform.localScale = new Vector3(0.4f, length, 0.4f);
+		trigger.GetComponent<BoxCollider>().size = new Vector3(1.0f, length, 0.25f);
 		trigger.GetComponent<Trigger>().length = (int)length;
 		trigger.GetComponent<Trigger>().Points.SetPoints(point, transform);
 	}
