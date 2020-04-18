@@ -14,10 +14,22 @@ public class Player : MonoBehaviour
     private Transform _curPoint;
     private GameControl _gameControl;
     private Transform _nextPoint;
-
+    private LineRenderer _line;
+    /// <summary>
+    ///     Отдалённость камеры от нуля
+    /// </summary>
+    private float _cameraHeight;
     private bool _isDraw;
-
     private List<Transform> _way = new List<Transform>();
+    private bool _isPlayerMove = false;
+    private Rigidbody _rigidbody;
+    private Vector3 _direction;
+
+    public Sprite Idle;
+    
+    public Sprite Move;
+    public float speed = 1.0f;
+
 
     #endregion
 
@@ -37,6 +49,9 @@ public class Player : MonoBehaviour
     void Start()
     {
         _gameControl = Camera.main.GetComponent<GameControl>();
+        _line = GameObject.FindGameObjectWithTag("Line").GetComponent<LineRenderer>();
+        _cameraHeight = Camera.main.transform.position.z;
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -51,29 +66,28 @@ public class Player : MonoBehaviour
         {
             DrawWay();
         }
+
+        if (_isPlayerMove)
+        {
+            PlayerMove();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        //transform.Translate(Vector3.forward * Time.deltaTime);
     }
 
     private void OnMouseDown()
     {
         _way.Add(CurPoint);
+        _line.positionCount = 2;
+        _line.SetPosition(0, CurPoint.position);
         _isDraw = true;
-        //  Отключить трггеры платформ
+        //  Отключить триггеры платформ
         _gameControl.triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = false);
         //  Включить зону коллайдера точки
         _gameControl.pointsColliders.ForEach(p => p.enabled = true);
-    }
-
-    public void UpdatePosition()
-    {
-        var nextPoint = _gameControl.Platforms.FirstOrDefault(p => p.First == CurPoint || p.Second == CurPoint);
-        if (nextPoint != null)
-        {
-            _nextPoint = nextPoint.GetNextPoint(CurPoint);
-            if (_nextPoint != null)
-            {
-                _way.Add(_nextPoint);
-            }
-        }
     }
 
     /// <summary>
@@ -86,11 +100,13 @@ public class Player : MonoBehaviour
             _isDraw = false;
             if (_way.Any())
             {
+                _isPlayerMove = true;
                 transform.position = _way.Last().position + new Vector3(0, 0, -1);
                 CurPoint = _way.Last();
             }
             _way.Clear();
-            //  Включить трггеры платформ
+            _line.positionCount = 0;
+            //  Включить триггеры платформ
             _gameControl.triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = true);
             //  Отключить зону коллайдера точки
             _gameControl.pointsColliders.ForEach(p => p.enabled = false);
@@ -99,6 +115,7 @@ public class Player : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
+                SetLineToCursor();
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 // Попадание луча из курсора в точку
@@ -129,10 +146,28 @@ public class Player : MonoBehaviour
                 var lastPoint = _way.Any() ? _way.Last() : CurPoint;
                 if (_gameControl.Platforms.Any(p => p.Comapre(lastPoint, _nextPoint)))
                 {
-                       _way.Add(_nextPoint);
+                     _way.Add(_nextPoint);
+                    _line.SetPosition(_line.positionCount - 1, _nextPoint.position);
+                    _line.positionCount++;
+                    SetLineToCursor();
                 }
             }
         }
+    }
+
+    private void SetLineToCursor()
+    {
+        _line.SetPosition(_line.positionCount - 1, Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0, 0, _cameraHeight));
+    }
+
+    private void PlayerMove()
+    {
+        /*CurPoint = _way.First();
+        transform.LookAt(CurPoint);
+        if (Vector3.Distance(transform.position, CurPoint.position) < 1.15f)
+        {
+            _way.RemoveAt(0);
+        }*/
     }
 
     private void Debuging()

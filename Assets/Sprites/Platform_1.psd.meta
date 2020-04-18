@@ -6,6 +6,8 @@ TextureImporter:
     21300002: Platform_2
     21300004: Platform_3
     21300006: IceFloe
+    21300008: Penguin
+    21300010: Penguin_glide
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -174,6 +176,46 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0a3d1017c56a080468ab8dbd3a5223b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Penguin
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1200
+        width: 327
+        height: 357
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18c7c489acaf9564ca152b9be2d77312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Penguin_glide
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 974
+        width: 397
+        height: 579
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c407b5efe9cf82b4a8ff5d264af8c3ce
       vertices: []
       indices: 
       edges: []
