@@ -83,7 +83,7 @@ public class Point : MonoBehaviour
         {
 			case PointType.Side:
 			case PointType.Default:
-		        transform.rotation = Quaternion.Euler(Random.Range(0, 360), 90, 90);
+		        //transform.rotation = Quaternion.Euler(Random.Range(0, 360), 90, 90);
                 break;
 			case PointType.Finish:
                 spriteRenderer.sprite = _iceFloeStartFinishSprite;
