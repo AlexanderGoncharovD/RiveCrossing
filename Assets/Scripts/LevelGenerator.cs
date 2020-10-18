@@ -40,7 +40,7 @@ public class LevelGenerator : MonoBehaviour
 	/// <summary>
 	///		Расположение платформ
 	/// </summary>
-	private string _platforms = "6-1;5-1#5-4;2-4#2-4;1-4#1-2;1-4";
+	private string _platforms = "6-1;5-1#5-4;2-4#2-4;1-4";
 
 	private Camera _camera;
 

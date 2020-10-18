@@ -12,6 +12,7 @@ public class Grid
 	private float _step = 1.0f;
 	private GameObject _pointModel;
 	private GameObject _platformModel;
+
 	/// <summary>
 	///		Карта точек уровня
 	/// </summary>

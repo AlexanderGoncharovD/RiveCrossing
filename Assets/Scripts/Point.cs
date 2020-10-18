@@ -6,6 +6,7 @@ using UnityEngine;
 public class Point : MonoBehaviour
 {
 	#region Private Fields
+
 	private Transform _nextPoint;
 
 	/// <summary>
@@ -18,6 +19,10 @@ public class Point : MonoBehaviour
 	///		Длина пути до следующей верной точки
 	/// </summary>
 	private float _lengthWay;
+
+
+    [SerializeField]
+	private Sprite _iceFloeStartFinishSprite;
 
 	#endregion
 
@@ -73,7 +78,22 @@ public class Point : MonoBehaviour
 
 	private void Start()
 	{
-		transform.rotation = Quaternion.Euler(Random.Range(0, 360), 90, 90);
+        var spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+		switch (Type)
+        {
+			case PointType.Side:
+			case PointType.Default:
+		        transform.rotation = Quaternion.Euler(Random.Range(0, 360), 90, 90);
+                break;
+			case PointType.Finish:
+                spriteRenderer.sprite = _iceFloeStartFinishSprite;
+				break;
+            case PointType.Start:
+                spriteRenderer.flipX = true;
+                spriteRenderer.flipY = true;
+                spriteRenderer.sprite = _iceFloeStartFinishSprite;
+                break;
+		}
 	}
 
 	private void Update()

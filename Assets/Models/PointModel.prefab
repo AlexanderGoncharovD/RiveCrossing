@@ -187,3 +187,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _trigger: {fileID: 2055421080934872481, guid: 3aeb8649a4b29b2458a9eebb9a112dea,
     type: 3}
+  _iceFloeStartFinishSprite: {fileID: 21300012, guid: 588227bdb857e544a9ae4360a5a26c4a,
+    type: 3}

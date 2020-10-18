@@ -8,6 +8,7 @@ TextureImporter:
     21300006: IceFloe
     21300008: Penguin
     21300010: Penguin_glide
+    21300012: IceFloe_Start-Finish
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -216,6 +217,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c407b5efe9cf82b4a8ff5d264af8c3ce
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceFloe_Start-Finish
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7124f19029abfa943830c751fae81204
       vertices: []
       indices: 
       edges: []
