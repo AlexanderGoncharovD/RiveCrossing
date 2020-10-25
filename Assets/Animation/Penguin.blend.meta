@@ -27,6 +27,17 @@ ModelImporter:
     100042: Bone.017
     100044: Bone.017_end
     100046: 18856_Dancing_Penguin_v1.001
+    100048: Bone.002
+    100050: Bone.003_end
+    100052: Bone.006
+    100054: Bone.013
+    100056: Bone.013_end
+    100058: Bone.014
+    100060: Bone.015
+    100062: Bone.015_end
+    100064: Bone.018
+    100066: Bone.019
+    100068: Bone.019_end
     400000: //RootNode
     400002: 18856_Dancing_Penguin_v1
     400004: Armature
@@ -51,6 +62,17 @@ ModelImporter:
     400042: Bone.017
     400044: Bone.017_end
     400046: 18856_Dancing_Penguin_v1.001
+    400048: Bone.002
+    400050: Bone.003_end
+    400052: Bone.006
+    400054: Bone.013
+    400056: Bone.013_end
+    400058: Bone.014
+    400060: Bone.015
+    400062: Bone.015_end
+    400064: Bone.018
+    400066: Bone.019
+    400068: Bone.019_end
     2100000: Default OBJ
     2300000: //RootNode
     2300002: 18856_Dancing_Penguin_v1
