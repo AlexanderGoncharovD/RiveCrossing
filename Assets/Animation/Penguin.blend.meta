@@ -38,6 +38,13 @@ ModelImporter:
     100064: Bone.018
     100066: Bone.019
     100068: Bone.019_end
+    100070: Bone.020
+    100072: Bone.020_end
+    100074: Camera
+    100076: Sun
+    100078: Sun.001
+    100080: Sun.002
+    100082: Sun.003
     400000: //RootNode
     400002: 18856_Dancing_Penguin_v1
     400004: Armature
@@ -73,6 +80,14 @@ ModelImporter:
     400064: Bone.018
     400066: Bone.019
     400068: Bone.019_end
+    400070: Bone.020
+    400072: Bone.020_end
+    400074: Camera
+    400076: Sun
+    400078: Sun.001
+    400080: Sun.002
+    400082: Sun.003
+    2000000: Camera
     2100000: Default OBJ
     2300000: //RootNode
     2300002: 18856_Dancing_Penguin_v1
@@ -82,6 +97,10 @@ ModelImporter:
     3300004: 18856_Dancing_Penguin_v1.001
     4300000: 18856_Dancing_Penguin_v1
     4300002: 18856_Dancing_Penguin_v1.001
+    10800000: Sun
+    10800002: Sun.001
+    10800004: Sun.002
+    10800006: Sun.003
   externalObjects: {}
   materials:
     importMaterials: 1
