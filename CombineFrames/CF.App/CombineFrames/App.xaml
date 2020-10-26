@@ -1,0 +1,72 @@
+﻿<Application x:Class="CombineFrames.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CombineFrames"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="BorderColor">#399cb4</Color>
+            <Color x:Key="BackgroundColor">#272727</Color>
+            <Color x:Key="BackgroundLightColor">#353535</Color>
+            <Color x:Key="TextLightColor">#cecece</Color>
+            <Color x:Key="TextDarkColor">#272727</Color>
+
+            <SolidColorBrush x:Key="BorderBrush"
+                             Color="{DynamicResource BorderColor}" />
+
+            <SolidColorBrush x:Key="BackgroundLightColorBrush"
+                             Color="{DynamicResource BackgroundLightColor}" />
+
+            <SolidColorBrush x:Key="BackgroundColorBrush"
+                             Color="{DynamicResource BackgroundColor}" />
+
+            <SolidColorBrush x:Key="TextLightColorBrush"
+                             Color="{DynamicResource TextLightColor}" />
+
+            <SolidColorBrush x:Key="TextDarkColorBrush"
+                             Color="{DynamicResource TextDarkColor}" />
+
+            <Style TargetType="Button">
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Background" Value="{StaticResource BackgroundColorBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource TextLightColorBrush}"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1.5">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BorderBrush}"/>
+                        <Setter Property="Foreground" Value="{StaticResource TextDarkColorBrush}"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Width" Value="95"/>
+                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="FontSize" Value="11"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="ItemsControl">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{StaticResource TextLightColorBrush}"/>
+            </Style>
+
+            <Style TargetType="ProgressBar">
+                <Setter Property="Background" Value="{StaticResource BackgroundLightColorBrush}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Foreground" Value="{StaticResource BorderBrush}"/>
+            </Style>
+        </ResourceDictionary>
+</Application.Resources>
+</Application>
