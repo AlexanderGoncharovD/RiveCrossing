@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{39D09D8F-828C-807D-FF4D-A0577F2C5D6C}</ProjectGuid>
+    <ProjectGuid>{364CB561-34B5-DE9F-E5E9-363F08D50326}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>GoogleMobileAds</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -63,32 +63,66 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AppDebug.cs" />
-    <Compile Include="Assets\Scripts\enums\PointType.cs" />
-    <Compile Include="Assets\Scripts\GameControl.cs" />
-    <Compile Include="Assets\Scripts\Grid.cs" />
-    <Compile Include="Assets\Scripts\LevelGenerator.cs" />
-    <Compile Include="Assets\Scripts\PlatformPoints.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\Point.cs" />
-    <Compile Include="Assets\Scripts\TouchPlatform.cs" />
-    <Compile Include="Assets\Scripts\Trigger.cs" />
-    <Compile Include="Assets\Scripts\Water.cs" />
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
-    </Reference>
+    <Compile Include="Assets\GoogleMobileAds\Api\AdLoader.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\BannerView.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdapterStatus.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdErrorEventArgs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdFailedToLoadEventArgs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdPosition.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdRequest.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdSize.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdValue.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\AdValueEventArgs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\Gender.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\MaxAdContentRating.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\NativeAdType.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\RequestConfiguration.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\Reward.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\ServerSideVerificationOptions.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\TagForChildDirectedTreatment.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Core\TagForUnderAgeOfConsent.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\CustomNativeEventArgs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\CustomNativeTemplateAd.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\InitializationStatus.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\InterstitialAd.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Mediation\MediationExtras.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\MobileAds.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\ResponseInfo.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\RewardBasedVideoAd.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\RewardedAd.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\RewardedInterstitialAd.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\AdLoaderClientArgs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\CustomNativeClientEventArgs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\DummyClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IAdLoaderClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IBannerClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IClientFactory.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\ICustomNativeTemplateClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IInitializationStatusClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IInterstitialClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IMobileAdsClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IResponseInfoClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IRewardBasedVideoAdClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IRewardedAdClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IRewardedInterstitialAdClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\MobileAdsEventExecutor.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\RewardedAdDummyClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\RewardedInterstitialAdDummyClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\Utils.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\AdLoaderClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\BannerClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\CustomNativeTemplateClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\DisplayMetrics.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\InitializationStatusClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\InterstitialClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\MobileAdsClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\RequestConfigurationClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\ResponseInfoClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\RewardBasedVideoAdClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\RewardedAdClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\Utils.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\GoogleMobileAdsClientFactory.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Unity\InitializationStatusDummyClient.cs" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
@@ -269,6 +303,12 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TestRunner">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.TestRunner">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
@@ -278,17 +318,68 @@
     <Reference Include="UnityEngine.Timeline">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Timeline">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.GoogleAudioSpatializer">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GoogleAudioSpatializer">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Editor">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.analytics@3.2.3/Editor/Unity.Analytics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Tracker">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.analytics@3.2.3/Editor/Unity.Analytics.Tracker.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.purchasing@2.0.3/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.JarResolver_v1.2.156">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/ExternalDependencyManager/Editor/Google.JarResolver_v1.2.156.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/ExternalDependencyManager/Editor/Google.VersionHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandlerImpl_v1.2.156">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/ExternalDependencyManager/Editor/Google.VersionHandlerImpl_v1.2.156.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.IOSResolver_v1.2.156">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/ExternalDependencyManager/Editor/Google.IOSResolver_v1.2.156.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.PackageManagerResolver_v1.2.156">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/ExternalDependencyManager/Editor/Google.PackageManagerResolver_v1.2.156.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -635,16 +726,6 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="GoogleMobileAds.csproj">
-      <Project>{364CB561-34B5-DE9F-E5E9-363F08D50326}</Project>
-      <Name>GoogleMobileAds</Name>
-    </ProjectReference>
-    <ProjectReference Include="GoogleMobileAds.Editor.csproj">
-      <Project>{526B2ECE-39B9-1F0D-0139-6B6FBED00B86}</Project>
-      <Name>GoogleMobileAds.Editor</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
