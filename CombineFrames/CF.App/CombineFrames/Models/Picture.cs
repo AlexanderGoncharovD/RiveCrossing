@@ -12,7 +12,7 @@ namespace CombineFrames.Models
     {
         #region Properties
 
-        public Image Image { get; private set; }
+        public System.Drawing.Image Image { get; private set; }
         public string Link { get; private set; }
         public string Name { get; private set; }
         public Size Size { get; private set; }
@@ -21,7 +21,7 @@ namespace CombineFrames.Models
 
         #region .ctor
 
-        public Picture(Image image)
+        public Picture(System.Drawing.Image image)
         {
             Image = image;
         }
@@ -41,7 +41,7 @@ namespace CombineFrames.Models
             image.Source = src;
             image.Stretch = Stretch.Uniform;
 
-            var picture = new Picture(image)
+            var picture = new Picture(System.Drawing.Bitmap.FromFile(path))
             {
                 Link = path,
                 Name = Path.GetFileName(path),
