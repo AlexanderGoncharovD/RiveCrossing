@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombineFrames", "CombineFrames\CombineFrames.csproj", "{6D455F96-4BBE-4CEE-80D1-CB945B2BB247}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CombineFrames", "app\CombineFrames\CombineFrames.csproj", "{6D455F96-4BBE-4CEE-80D1-CB945B2BB247}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meta", "src\Meta\Meta.csproj", "{862D277D-436F-4F98-B327-0D9FD37015D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6ADCA25A-ACFC-4FC1-9ED3-1EC1D2F5DAC9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{D4064A91-B71F-46B1-AF86-5426ED89CC37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,17 @@ Global
 		{6D455F96-4BBE-4CEE-80D1-CB945B2BB247}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D455F96-4BBE-4CEE-80D1-CB945B2BB247}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D455F96-4BBE-4CEE-80D1-CB945B2BB247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{862D277D-436F-4F98-B327-0D9FD37015D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{862D277D-436F-4F98-B327-0D9FD37015D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{862D277D-436F-4F98-B327-0D9FD37015D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{862D277D-436F-4F98-B327-0D9FD37015D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6D455F96-4BBE-4CEE-80D1-CB945B2BB247} = {D4064A91-B71F-46B1-AF86-5426ED89CC37}
+		{862D277D-436F-4F98-B327-0D9FD37015D6} = {6ADCA25A-ACFC-4FC1-9ED3-1EC1D2F5DAC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5278F6B3-8F15-480A-B1B3-80566F643295}
