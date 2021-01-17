@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector3 _direction;
     private Transform _visual;
+    private Animator _animator;
 
     public Sprite Idle;
     
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
         _cameraHeight = Camera.main.transform.position.z;
         _rigidbody = GetComponent<Rigidbody>();
         _visual = transform.GetChild(0);
+        _animator = transform.GetChild(0).GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -155,11 +157,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Run()
-    {
-
-    }
-
     private void SetLineToCursor()
     {
         _line.SetPosition(_line.positionCount - 1, Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0, 0, _cameraHeight));
@@ -174,6 +171,8 @@ public class Player : MonoBehaviour
 
         if(CurPoint == null)
             return;
+
+        _animator.Play("Run");
 
         if (Vector2.Distance(transform.position, CurPoint.position) < 0.05f)
         {
@@ -198,6 +197,7 @@ public class Player : MonoBehaviour
     private void BreakMove()
     {
         _isPlayerMove = false;
+        _animator.Play("Idle_v2");
         _way.Clear();
         _line.positionCount = 0;
         _gameControl.ChangeEnabledTriggerPlatforms(true);
