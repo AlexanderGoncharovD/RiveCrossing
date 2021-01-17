@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Meta.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "parse:C:\\Users\\PenguinLAB\\source\\RiveCrossing\\Assets\\Sprites\\Penguin\\Idle.png.meta"
+    }
+  }
+}
