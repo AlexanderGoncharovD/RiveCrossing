@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private GameControl _gameControl;
     private Transform _nextPoint;
     private LineRenderer _line;
+
     /// <summary>
     ///     Отдалённость камеры от нуля
     /// </summary>
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     private bool _isPlayerMove = false;
     private Rigidbody _rigidbody;
     private Vector3 _direction;
+    private Transform _visual;
 
     public Sprite Idle;
     
@@ -46,16 +48,17 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    void Start()
+    private void Start()
     {
         _gameControl = Camera.main.GetComponent<GameControl>();
         _line = GameObject.FindGameObjectWithTag("Line").GetComponent<LineRenderer>();
         _cameraHeight = Camera.main.transform.position.z;
         _rigidbody = GetComponent<Rigidbody>();
+        _visual = transform.GetChild(0);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (AppDebug.IsDebug)
         {
@@ -84,10 +87,9 @@ public class Player : MonoBehaviour
         _line.positionCount = 2;
         _line.SetPosition(0, CurPoint.position);
         _isDraw = true;
-        //  Отключить триггеры платформ
-        _gameControl.triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = false);
-        //  Включить зону коллайдера точки
-        _gameControl.pointsColliders.ForEach(p => p.enabled = true);
+
+        _gameControl.ChangeEnabledTriggerPlatforms(false);
+        _gameControl.ChangeEnabledColliderPoints(true);
     }
 
     /// <summary>
@@ -101,15 +103,13 @@ public class Player : MonoBehaviour
             if (_way.Any())
             {
                 _isPlayerMove = true;
-                transform.position = _way.Last().position + new Vector3(0, 0, -1);
-                CurPoint = _way.Last();
+                /*transform.position = _way.Last().position + new Vector3(0, 0, -1);
+                CurPoint = _way.Last();*/
             }
-            _way.Clear();
-            _line.positionCount = 0;
-            //  Включить триггеры платформ
-            _gameControl.triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = true);
-            //  Отключить зону коллайдера точки
-            _gameControl.pointsColliders.ForEach(p => p.enabled = false);
+            else
+            {
+                BreakMove();
+            }
         }
         else
         {
@@ -155,19 +155,79 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Run()
+    {
+
+    }
+
     private void SetLineToCursor()
     {
         _line.SetPosition(_line.positionCount - 1, Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0, 0, _cameraHeight));
     }
 
+    /// <summary>
+    ///     Перемещение персонажа
+    /// </summary>
     private void PlayerMove()
     {
-        /*CurPoint = _way.First();
-        transform.LookAt(CurPoint);
-        if (Vector3.Distance(transform.position, CurPoint.position) < 1.15f)
+        CurPoint = _way.FirstOrDefault();
+
+        if(CurPoint == null)
+            return;
+
+        if (Vector2.Distance(transform.position, CurPoint.position) < 0.05f)
         {
             _way.RemoveAt(0);
-        }*/
+
+            if (!_way.Any())
+            {
+                BreakMove();
+            }
+        }
+
+        var direction = (CurPoint.position - transform.position).normalized;
+        var angle = GetDirectionInAngle(direction);
+
+        _visual.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.Translate(direction * Time.deltaTime * speed);
+    }
+
+    /// <summary>
+    ///     Остановить перемещение персонажа
+    /// </summary>
+    private void BreakMove()
+    {
+        _isPlayerMove = false;
+        _way.Clear();
+        _line.positionCount = 0;
+        _gameControl.ChangeEnabledTriggerPlatforms(true);
+        _gameControl.ChangeEnabledColliderPoints(false);
+    }
+
+    /// <summary>
+    ///     Получить напрваление в градусах
+    /// </summary>
+    /// <param name="direction">
+    ///     Напрваление до цели
+    /// </param>
+    /// <returns>
+    ///     Поворот в градусах
+    /// </returns>
+    private static float GetDirectionInAngle(Vector3 direction)
+    {
+        var x = Mathf.RoundToInt(direction.x);
+        var y = Mathf.RoundToInt(direction.y);
+        var z = Mathf.RoundToInt(direction.z);
+
+        if (y > 0)
+            return 0;
+        if (y < 0)
+            return 180;
+        if (x > 0)
+            return 270;
+        if (x < 0)
+            return 90;
+        return 0;
     }
 
     private void Debuging()

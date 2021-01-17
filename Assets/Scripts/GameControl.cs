@@ -35,6 +35,28 @@ public class GameControl : MonoBehaviour
     {
         triggers = GameObject.FindGameObjectsWithTag("Trigger").Select(g => g.GetComponent<Trigger>()).ToList();
     }
-    
+
+    /// <summary>
+    ///     Изменить состояние триггера платформ
+    /// </summary>
+    /// <param name="enabled">
+    ///     True/False — включено/выключено
+    /// </param>
+    public void ChangeEnabledTriggerPlatforms(bool enabled)
+    {
+        triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = enabled);
+    }
+
+    /// <summary>
+    ///     Изменить зону коллайдера точки
+    /// </summary>
+    /// <param name="enabled">
+    ///     True/False — включено/выключено
+    /// </param>
+    public void ChangeEnabledColliderPoints(bool enabled)
+    {
+        pointsColliders.ForEach(p => p.enabled = enabled);
+    }
+
     #endregion
 }

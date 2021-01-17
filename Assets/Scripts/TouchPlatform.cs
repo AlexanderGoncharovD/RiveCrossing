@@ -72,7 +72,7 @@ public class TouchPlatform : MonoBehaviour
         length = Mathf.CeilToInt(_collider.size.y);
         transform.GetComponentInChildren<SpriteRenderer>().sprite = _gameControl.PlatformsSprites[length - 1];
         tag = $"Platform{length}";
-        CacheFirstTransform();
+        CacheFirstPosition();
     }
 
     private void Update()
@@ -141,21 +141,18 @@ public class TouchPlatform : MonoBehaviour
 
         if (trigger == null)
         {
-            RecoveryTransform();
+            RecoveryPosition();
         }
         else
         {
-            transform.rotation = trigger.Rot;
-            transform.position = trigger.Pos;
-            Points.SetPoints(trigger.Points.First, trigger.Points.Second);
-            CacheFirstTransform();
+            SetNewPosition();
         }
     }
 
     /// <summary>
     ///     Закешировать Положение платформы
     /// </summary>
-    public void CacheFirstTransform()
+    private void CacheFirstPosition()
     {
         _startPos = transform.position;
         _startRot = transform.rotation;
@@ -164,9 +161,20 @@ public class TouchPlatform : MonoBehaviour
     /// <summary>
     ///     Восстановить положение платформы
     /// </summary>
-    public void RecoveryTransform()
+    private void RecoveryPosition()
     {
         transform.position = _startPos;
         transform.rotation = _startRot;
+    }
+
+    /// <summary>
+    ///     Установить новое полдожения для платформы
+    /// </summary>
+    private void SetNewPosition()
+    {
+        transform.rotation = trigger.Rot;
+        transform.position = trigger.Pos;
+        Points.SetPoints(trigger.Points.First, trigger.Points.Second);
+        CacheFirstPosition();
     }
 }

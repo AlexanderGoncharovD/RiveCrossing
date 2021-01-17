@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Idle: {fileID: 21300008, guid: 588227bdb857e544a9ae4360a5a26c4a, type: 3}
   Move: {fileID: 21300010, guid: 588227bdb857e544a9ae4360a5a26c4a, type: 3}
-  speed: 1
+  speed: 1.75
 --- !u!54 &6200258765921391493
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -193,7 +193,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: a033ca5d3a7b5c04aaa78c716b6b232b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
