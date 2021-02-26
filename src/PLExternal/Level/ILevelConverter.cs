@@ -27,5 +27,15 @@ namespace PLExternal.Level
         ///     Получить решение уровеня по номеру
         /// </summary>
         string GetLevelSolutionByNumber(int number);
+
+        /// <summary>
+        ///     Получить платофрмы для уровня по индексу
+        /// </summary>
+        string GetLevelPlatformsByIndex(int index);
+
+        /// <summary>
+        ///     Получить платофрмы для уровня по номеру
+        /// </summary>
+        string GetLevelPlatformsByNumber(int number);
     }
 }

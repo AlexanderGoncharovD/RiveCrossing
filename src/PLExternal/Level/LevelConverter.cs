@@ -56,10 +56,57 @@ namespace PLExternal.Level
 
             var index = number - 1;
 
-            return GetLevelByIndex(index);
+            return GetLevelSolutionByIndex(index);
+        }
+
+        /// <inheritdoc/>
+        public string GetLevelPlatformsByIndex(int index)
+        {
+            var baseline = LevelModel.Platforms[index];
+
+            return ConvertToPlatforms(baseline);
+        }
+
+        /// <inheritdoc/>
+        public string GetLevelPlatformsByNumber(int number)
+        {
+            if (number == 0)
+            {
+                throw new Exception($"The value '{number}' is not a level number");
+            }
+
+            var index = number - 1;
+
+            return GetLevelPlatformsByIndex(index);
         }
 
         #endregion
+
+        /// <summary>
+        ///     Преобразует изначальную строку расстановки платоформ в строку платформ для игровой карты
+        /// </summary>
+        /// <param name="baseline"></param>
+        /// <returns></returns>
+        private string ConvertToPlatforms(string baseline)
+        {
+            var map = new List<string>();
+
+            var levelPairs = baseline.Split(' ');
+
+            foreach (var pair in levelPairs)
+            {
+                var symbols = pair.ToCharArray();
+                var platform = new List<LevelPoint>();
+
+                foreach (var symbol in symbols)
+                {
+                    platform.Add(LevelModel.MapPoints[symbol.ToString()]);
+                }
+                map.Add(string.Join(";", platform));
+            }
+
+            return string.Join("#", map);
+        }
 
         /// <summary>
         ///     Преобразует строку базового уровня в игровоей поле
@@ -85,19 +132,11 @@ namespace PLExternal.Level
         {
             var map = new List<LevelPoint>();
             
-            var levelPairs = baseline.Split(' ');
-            
-            foreach (var pair in levelPairs)
-            {
-                foreach (var point in pair.Split('-'))
-                {
-                    var symbols = point.ToCharArray();
+            var symbols = baseline.ToCharArray();
 
-                    foreach (var symbol in symbols)
-                    {
-                        map.Add(LevelModel.MapPoints[symbol.ToString()]);
-                    }
-                }
+            foreach (var symbol in symbols)
+            {
+                map.Add(LevelModel.MapPoints[symbol.ToString()]);
             }
 
             return string.Join(";", map);

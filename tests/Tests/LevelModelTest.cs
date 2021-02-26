@@ -79,8 +79,11 @@ namespace Tests
             }
         }
 
+        /// <summary>
+        ///     Тест корректности конвертации из исходной строки уровня в карту игрового уровня
+        /// </summary>
         [Test]
-        public void LevelConverter_Test()
+        public void Level_LevelConverter_Test()
         {
             var converter = new LevelConverter();
 
@@ -90,5 +93,21 @@ namespace Tests
             Assert.AreEqual(level25ByIndex, level25ByNumber);
             Assert.AreEqual(level25ByNumber, "6-1;5-1;5-2;5-3;5-4;4-2;4-3;3-0;3-3;2-1;2-4;1-4;1-2;0-3");
         }
+
+        /// <summary>
+        ///     Корректность конвертации исходной строки расположения платформ в строку понятную для игрового уровня
+        /// </summary>
+        [Test]
+        public void Platforms_LevelConverter_Test()
+        {
+            var converter = new LevelConverter();
+
+            var level1ByIndex = converter.GetLevelPlatformsByIndex(0);
+            var level1ByNumber = converter.GetLevelPlatformsByNumber(1);
+
+            Assert.AreEqual(level1ByIndex, level1ByNumber);
+            Assert.AreEqual(level1ByNumber, "6-1;4-1#4-1;3-1");
+        }
+
     }
 }

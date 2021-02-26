@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PLExternal.Level;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
@@ -44,6 +45,7 @@ public class LevelGenerator : MonoBehaviour
 
 	private Camera _camera;
     private GameControl _gameControl;
+    private LevelConverter _levelConverter;
 
 	#endregion
 
@@ -58,17 +60,21 @@ public class LevelGenerator : MonoBehaviour
 	private void Start()
 	{
 		_camera = Camera.main;
-		LoadLevel();
+		_levelConverter = new LevelConverter();
+		LoadLevel(1);
 		SpawnPlayer();
 	}
 
 	/// <summary>
 	///		Загрузить игровой уровень
 	/// </summary>
-	private void LoadLevel()
+	private void LoadLevel(int level)
     {
         _gameControl = _camera.GetComponent<GameControl>();
-		_grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
+        _map = _levelConverter.GetLevelByNumber(level);
+        _platforms = _levelConverter.GetLevelPlatformsByNumber(level);
+        _solution = _levelConverter.GetLevelSolutionByNumber(level);
+        _grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
         _gameControl.UpdateTriggerList();
 	}
 
