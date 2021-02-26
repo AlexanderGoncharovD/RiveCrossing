@@ -20,5 +20,7 @@ namespace PLExternal.Level
             Column = col;
             Row = row;
         }
+
+        public override string ToString() => $"{Row}-{Column}";
     }
 }

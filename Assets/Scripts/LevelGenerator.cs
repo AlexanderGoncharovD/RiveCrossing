@@ -43,6 +43,7 @@ public class LevelGenerator : MonoBehaviour
 	private string _platforms = "6-1;5-1#5-4;2-4#2-4;1-4";
 
 	private Camera _camera;
+    private GameControl _gameControl;
 
 	#endregion
 
@@ -65,9 +66,10 @@ public class LevelGenerator : MonoBehaviour
 	///		Загрузить игровой уровень
 	/// </summary>
 	private void LoadLevel()
-	{
+    {
+        _gameControl = _camera.GetComponent<GameControl>();
 		_grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
-		_camera.GetComponent<GameControl>().UpdateTriggerList();
+        _gameControl.UpdateTriggerList();
 	}
 
 	/// <summary>

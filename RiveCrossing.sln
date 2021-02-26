@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{39D09D8F-828C-807D-FF4D-A0577F2C5D6C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{10F916B1-7A8F-4751-934D-6A5DF0C2AB0B}"
@@ -38,9 +36,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{06639F0E-23D6-4385-8887-D788075BC0D8} = {10F916B1-7A8F-4751-934D-6A5DF0C2AB0B}
 		{782380EB-EE09-4E43-9F3D-E5D674714319} = {3E016E17-B8D6-410A-A0E4-3B6EC173512C}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F5DEC4A1-5385-4D9A-B16A-9C3864DC9BFA}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj

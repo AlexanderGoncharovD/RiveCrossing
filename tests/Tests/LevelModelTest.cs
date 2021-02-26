@@ -7,24 +7,35 @@ namespace Tests
 {
     public class LevelModelTest
     {
+        /// <summary>
+        /// Разрешённые символы для уровня
+        /// </summary>
+        public static string[] AllowedSymbols { get; } =
+        {
+            "1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+        };
+
         [SetUp]
         public void Setup()
         { }
 
+        /// <summary>
+        ///     Тест корректности записанных решений уровней
+        /// </summary>
         [Test]
-        public void LevelModal_Levels_Test()
+        public void LevelModal_Solutions_Test()
         {
-            if (LevelModel.Levels == null || LevelModel.Levels?.Length == 0)
+            if (LevelModel.Solutions == null || LevelModel.Solutions?.Length == 0)
             {
                 throw new Exception("Not found levels");
             }
 
-            if (LevelModel.Levels.Length != 40)
+            if (LevelModel.Solutions.Length != 40)
             {
                 throw new Exception("Mismatching the number of levels");
             }
 
-            foreach (var level in LevelModel.Levels)
+            foreach (var level in LevelModel.Solutions)
             {
                 var pairs = level.Split(' ');
 
@@ -58,7 +69,7 @@ namespace Tests
 
                         foreach (var symbol in symbols)
                         {
-                            if (!LevelModel.AllowedSymbols.Contains(symbol.ToString()))
+                            if (!AllowedSymbols.Contains(symbol.ToString()))
                             {
                                 throw new Exception($"Symbol: '{symbol}' not resolved");
                             }
@@ -66,6 +77,18 @@ namespace Tests
                     }
                 }
             }
+        }
+
+        [Test]
+        public void LevelConverter_Test()
+        {
+            var converter = new LevelConverter();
+
+            var level25ByIndex = converter.GetLevelByIndex(24);
+            var level25ByNumber = converter.GetLevelByNumber(25);
+
+            Assert.AreEqual(level25ByIndex, level25ByNumber);
+            Assert.AreEqual(level25ByNumber, "6-1;5-1;5-2;5-3;5-4;4-2;4-3;3-0;3-3;2-1;2-4;1-4;1-2;0-3");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PLExternal.Map;
 using UnityEngine;
 
 public class TouchPlatform : MonoBehaviour

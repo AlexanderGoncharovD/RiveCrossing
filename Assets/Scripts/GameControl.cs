@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PLExternal;
+using PLExternal.Map;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -25,8 +26,6 @@ public class GameControl : MonoBehaviour
 
     private void Awake()
     {
-        var a = LevelModel.Levels;
-        var b = new Class1();
     }
 
     void Start()

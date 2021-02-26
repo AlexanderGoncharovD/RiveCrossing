@@ -11,7 +11,58 @@ namespace PLExternal.Level
     /// </summary>
     public static class LevelModel
     {
+        /// <summary>
+        ///     Игровые уровни
+        /// </summary>
         public static string[] Levels { get; } =
+        {
+            "2 G H R S 9", // 1
+            "1 A B L M N X Y Z",
+            "3 F K C H R T W 9",
+            "2 A F C D N L V W T Y 9",
+            "2 G Q A P U S T D 9", // 5
+            "2 G C R X V A K N 9",
+            "3 A B L N C E H R 8",
+            "2 G Q W X I D T 9",
+            "3 L V X A C M R J T 7",
+            "3 A C M E J O W F K 8", // 10
+            "4 K P N A C D H R W 8",
+            "1 A B E T S G V P U 9",
+            "2 G V C R W D K U O 9",
+            "4 P D S E O L V H W T 7",
+            "2 G J Y S X Q D N 9", // 15
+            "3 F K U I X A C 8",
+            "4 P R D N E J H W 8",
+            "3 D S H R B L V X O 8",
+            "2 J Y V A K U C G Q R N S 9",
+            "2 K M N X O Y H R U 9", // 20
+            "3 D C A J T S Y W G L V M P 8",
+            "1 2 R W G L K U C H N O E Z",
+            "3 A B D I K M O U V S X 8",
+            "1 D B H F K U Q V N X E T Y 7",
+            "2 F K P U L Q C R I X Y O 9", // 25
+            "2 K B L D I X Q F U M W O T 9",
+            "4 F K M R I S J G Q O 9",
+            "5 J H F B D S X L V O P U 8",
+            "2 F G L C M E J W Y V A S P 9",
+            "2 G V C E D J A K U R N X 9", // 30
+            "2 G H W B E D J Q T A K U N 9",
+            "3 G Q I S V A K O Y U F C D I 8",
+            "3 B L W D E Q I S F O Y P U H I 8",
+            "1 D C G S X A P U E J H Y 8",
+            "3 C H M L S A K O N J U V Y 9", // 35
+            "4 X H M R V D G S A K U O Y 7",
+            "4 B G H A D N E Q T Y X P U 7",
+            "2 G D C M N E Q V T P X 8",
+            "3 G F C M W N J Q P Y A 8",
+            "2 E C M I W Q T Y X A F K U 7" // 40
+
+        };
+
+        /// <summary>
+        ///     Решения игровых уровней 
+        /// </summary>
+        public static string[] Solutions { get; } =
         {
             "2G-HR GH-RS HR-S9", // 1
             "1A-AB AB-LM LM-MN MN-XY XY-YZ",
@@ -55,11 +106,9 @@ namespace PLExternal.Level
             "2F-AF AC-CM CM-KM KM-KU UW-KM KU-CM CM-AC AF-FK KM-CM AC-KM CM-KU KM-UW FK-WX WX-XY XY-TY QT-ET TY-XY XY-WX WX-FK UW-KM KU-CM KM-AC CM-KM FK-AF AC-CM KM-CE CM-AC ET-FI AC-I7", // 40
         };
 
-        public static string[] AllowedSymbols { get; } =
-        {
-            "1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
-        };
-
+        /// <summary>
+        ///     Словарь соотношения символа исходного уровня с позицией на игровой карте
+        /// </summary>
         public static Dictionary<string, LevelPoint> MapPoints { get; } = new Dictionary<string, LevelPoint>
         {
             { "1", new LevelPoint(6, 0)},
