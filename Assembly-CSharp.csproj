@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AppDebug.cs" />
-    <Compile Include="Assets\Scripts\enums\PointType.cs" />
     <Compile Include="Assets\Scripts\GameControl.cs" />
     <Compile Include="Assets\Scripts\Grid.cs" />
     <Compile Include="Assets\Scripts\LevelGenerator.cs" />
@@ -289,6 +288,9 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="PLExternal">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/Library/PLExternal.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

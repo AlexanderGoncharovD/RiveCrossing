@@ -1,7 +1,11 @@
-﻿using System.Collections;
+﻿using PLExternal.Level;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PLExternal;
 using UnityEngine;
+using UnityEngine.Video;
+
 
 public class GameControl : MonoBehaviour
 {
@@ -18,6 +22,12 @@ public class GameControl : MonoBehaviour
     public Player Player { get; set; }
 
     public Sprite[] PlatformsSprites;
+
+    private void Awake()
+    {
+        var a = LevelModel.Levels;
+        var b = new Class1();
+    }
 
     void Start()
     {
