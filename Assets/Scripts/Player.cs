@@ -102,31 +102,36 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             _isDraw = false;
-            if (_way.Any())
+            if (_way.Count > 1)
             {
                 _isPlayerMove = true;
-                /*transform.position = _way.Last().position + new Vector3(0, 0, -1);
-                CurPoint = _way.Last();*/
+                RemoveLastPoint();
             }
             else
             {
                 BreakMove();
             }
-        }
-        else
-        {
-            if (Input.GetMouseButton(0))
-            {
-                SetLineToCursor();
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                // Попадание луча из курсора в точку
-                if (Physics.Raycast(ray, out RaycastHit hit))
+            return;
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            SetLineToCursor(out var direction);
+
+            if (_way.Count <= 1)
+            {
+                RotatePlayer(direction);
+            }
+
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            // Попадание луча из курсора в точку
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if (hit.transform.CompareTag("Point"))
                 {
-                    if (hit.transform.CompareTag("Point"))
-                    {
-                        TryAddPoint(hit.transform.GetComponent<Point>());
-                    }
+                    TryAddPoint(hit.transform.GetComponent<Point>());
                 }
             }
         }
@@ -151,15 +156,23 @@ public class Player : MonoBehaviour
                      _way.Add(_nextPoint);
                     _line.SetPosition(_line.positionCount - 1, _nextPoint.position);
                     _line.positionCount++;
-                    SetLineToCursor();
+                    SetLineToCursor(out var direction);
                 }
             }
         }
     }
 
-    private void SetLineToCursor()
+    private void SetLineToCursor(out Vector3 direction)
     {
-        _line.SetPosition(_line.positionCount - 1, Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0, 0, _cameraHeight));
+        direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0, 0, _cameraHeight);
+        _line.SetPosition(_line.positionCount - 1, direction);
+    }
+
+    private void RotatePlayer(Vector3 direction)
+    {
+        var angle = GetDirectionInAngle(direction);
+
+        _visual.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     /// <summary>
@@ -170,14 +183,14 @@ public class Player : MonoBehaviour
         CurPoint = _way.FirstOrDefault();
 
         if(CurPoint == null)
+        {
             return;
-
-        _animator.Play("Run");
+        }
 
         if (Vector2.Distance(transform.position, CurPoint.position) < 0.05f)
         {
             _way.RemoveAt(0);
-
+            
             if (!_way.Any())
             {
                 BreakMove();
@@ -185,10 +198,10 @@ public class Player : MonoBehaviour
         }
 
         var direction = (CurPoint.position - transform.position).normalized;
-        var angle = GetDirectionInAngle(direction);
-
-        _visual.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        RotatePlayer(direction);
         transform.Translate(direction * Time.deltaTime * speed);
+
+        _animator.Play("Run");
     }
 
     /// <summary>
@@ -202,6 +215,11 @@ public class Player : MonoBehaviour
         _line.positionCount = 0;
         _gameControl.ChangeEnabledTriggerPlatforms(true);
         _gameControl.ChangeEnabledColliderPoints(false);
+    }
+
+    private void RemoveLastPoint()
+    {
+        _line.positionCount--;
     }
 
     /// <summary>
