@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PLExternal.Level
@@ -131,7 +132,6 @@ namespace PLExternal.Level
         private string ConvertToSolution(string baseline)
         {
             var map = new List<LevelPoint>();
-            
             var symbols = baseline.ToCharArray();
 
             foreach (var symbol in symbols)

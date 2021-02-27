@@ -7,8 +7,8 @@
     &lt;TestId&gt;NUnit3x::51FC3229-2656-4BE9-A77E-8CC5CE5900CB::.NETCoreApp,Version=v3.1::Tests.LevelModelTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9ea57e0e_002D4909_002D460b_002D8bc0_002D1042aad4f1c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LevelModal_Levels_Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9ea57e0e_002D4909_002D460b_002D8bc0_002D1042aad4f1c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LevelModal_Levels_Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::51FC3229-2656-4BE9-A77E-8CC5CE5900CB::.NETCoreApp,Version=v3.1::Tests.LevelModelTest.LevelModal_Levels_Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::782380EB-EE09-4E43-9F3D-E5D674714319::.NETCoreApp,Version=v3.1::Tests.LevelModelTest.Solutions_LevelConverter_Test&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

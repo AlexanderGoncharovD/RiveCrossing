@@ -18,6 +18,44 @@ namespace PLExternal.Level
         {
             "2G GH", // 1
             "1A BL NX",
+            "3K FH",
+            "AC F2 WV",
+            "DS G2", // 5
+            "2G GV VX",
+            "BA HR 3L",
+            "2G GQ QT",
+            "3L 3M VX",
+            "AC MW K3", // 10
+            "4P AK",
+            "1A GV",
+            "2G GV VW",
+            "4P PS",
+            "2G DN SX JY", // 15
+            "CA 3K UX",
+            "4P PR GH",
+            "3L HR DS SX",
+            "2G GJ UV",
+            "2H HM NX OY", // 20
+            "3L LG GJ",
+            "1C CE NO RW",
+            "3K KM IS",
+            "1B UV ET",
+            "2F UX XY", // 25
+            "2F KU IX",
+            "4Q QR KM",
+            "5U VX FH DS",
+            "2F LV GJ MW",
+            "2G GJ DE KU", // 30
+            "2G QT HJ DE",
+            "3K AC VW IS",
+            "3L LQ EO",
+            "1A AP HM",
+            "3K UV OV", // 35
+            "4R RM AK UV",
+            "4P UX DN",
+            "2G UV CM DE QT",
+            "3M PQ FG CM MW",
+            "2F AC UW QT" // 40
         };
 
         /// <summary>
@@ -75,7 +113,7 @@ namespace PLExternal.Level
         {
             "2GHRS9", // 1
             "1ABLMNXYZ",
-            "3K-FK FK-CH FH-HR CH-RW HR-RT RW-T9",
+            "3KFHT9",
             "2F-AF AF-CD AC-DN DN-LN LN-LV LV-WY VW-TY TY-T9",
             "2G-GQ GQ-QS DS-AD AD-AP PU-PQ PQ-ST ST-T9", // 5
             "2G-NX GV-KN VX-AK NX-AC KN-CR CR-R9",

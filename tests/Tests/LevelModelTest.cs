@@ -109,5 +109,20 @@ namespace Tests
             Assert.AreEqual(level1ByNumber, "6-1;4-1#4-1;3-1");
         }
 
+        /// <summary>
+        ///     Тест конвертации решения уровня
+        /// </summary>
+        [Test]
+        public void Solutions_LevelConverter_Test()
+        {
+            var converter = new LevelConverter();
+
+            var solutionByIndex = converter.GetLevelSolutionByIndex(2);
+            var solutionByNumber = converter.GetLevelSolutionByNumber(3);
+
+            Assert.AreEqual(solutionByIndex, solutionByNumber);
+            Assert.AreEqual(solutionByNumber, "6-1;4-1;3-1;3-3;2-3;0-3");
+        }
+
     }
 }
