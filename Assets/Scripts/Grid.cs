@@ -54,6 +54,11 @@ public class Grid
 	/// </summary>
 	public List<int> PlatformLengths { get; private set; }
 
+	/// <summary>
+	///		Словарь связи точек триггерами
+	/// </summary>
+	public Dictionary<string, Trigger> TriggerLinkMap { get; set; } = new Dictionary<string, Trigger>();
+
 	#endregion
 
 	#region .ctor
@@ -117,7 +122,7 @@ public class Grid
 
 		SetNextBackPoints();
 		SetOthersPoints();
-		_points.ForEach(p => p.GetComponent<Point>().GenerateTriggers());
+		_points.ForEach(p => p.GetComponent<Point>().GenerateTriggers(this));
 		GenerationPlatforms();
 	}
 
@@ -230,7 +235,31 @@ public class Grid
 				return;
             }
 
-            if(Mathf.CeilToInt(Vector3.Distance(basePoint.transform.position, point.transform.position)) <= PlatformLengths.Max())
+            for (var c = 1; c < PlatformHelper.GetColLength(new[] {basePoint.name, point.name}); c++)
+            {
+                var baseLevelPoint = PlatformHelper.GetPoint(basePoint.name);
+                var otherLevelPoint = PlatformHelper.GetPoint(point.name);
+                var minLevelPoint = baseLevelPoint.Column > otherLevelPoint.Column ? otherLevelPoint : baseLevelPoint;
+
+                if (otherPoints.Any(_ => _.name == $"{minLevelPoint.Row}-{minLevelPoint.Column + c}"))
+                {
+					return;
+                }
+            }
+
+            for (var r = 1; r < PlatformHelper.GetRowLength(new[] { basePoint.name, point.name }); r++)
+            {
+                var baseLevelPoint = PlatformHelper.GetPoint(basePoint.name);
+                var otherLevelPoint = PlatformHelper.GetPoint(point.name);
+                var minLevelPoint = baseLevelPoint.Row > otherLevelPoint.Row ? otherLevelPoint : baseLevelPoint;
+
+                if (otherPoints.Any(_ => _.name == $"{minLevelPoint.Row + r}-{minLevelPoint.Column}"))
+                {
+                    return;
+                }
+			}
+
+			if (Mathf.CeilToInt(Vector3.Distance(basePoint.transform.position, point.transform.position)) <= PlatformLengths.Max())
             {
                 result.Add(point);
 			}

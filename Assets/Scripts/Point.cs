@@ -127,7 +127,7 @@ public class Point : MonoBehaviour
 	/// <param name="isSide">
 	///		Является ли точка побочной
 	/// </param>
-	private void CreateTrigger(Transform point, bool isSide = false)
+	private Trigger CreateTrigger(Transform point, bool isSide = false)
 	{
 		var center = (point.position + transform.position) / 2.0f;
 		var isVertical = point.position.y == transform.position.y;
@@ -140,9 +140,12 @@ public class Point : MonoBehaviour
 		}
 
 		trigger.GetComponent<BoxCollider>().size = new Vector3(1.0f, length, 0.25f);
-		trigger.GetComponent<Trigger>().length = (int)length;
-		trigger.GetComponent<Trigger>().Points.SetPoints(point, transform);
-	}
+        var triggerComponent = trigger.GetComponent<Trigger>();
+        triggerComponent.length = (int)length;
+        triggerComponent.Points.SetPoints(point, transform);
+
+        return triggerComponent;
+    }
 
 	#endregion
 
@@ -151,19 +154,32 @@ public class Point : MonoBehaviour
 	/// <summary>
 	///		Генерировать блоки для установки платформ
 	/// </summary>
-	public void GenerateTriggers()
+	public void GenerateTriggers(Grid grid)
 	{
 		if (NextPoint != null)
-		{
-			CreateTrigger(NextPoint);
+        {
+			var component = NextPoint.GetComponent<Point>();
+            Create(NextPoint, component, false);
 		}
 
 		if (OtherPoints.Any())
 		{
 			foreach (var otherPoint in OtherPoints)
 			{
-				CreateTrigger(otherPoint, true);
-			}
+				var component = otherPoint.GetComponent<Point>();
+                Create(otherPoint, component, true);
+            }
+		}
+
+        void Create(Transform pointTransform, Point point, bool isSide)
+        {
+            if (!grid.TriggerLinkMap.ContainsKey($"{Row}-{Column};{point.Row}-{point.Column}")
+                && !grid.TriggerLinkMap.ContainsKey(
+                    $"{point.Row}-{point.Column};{Row}-{Column}"))
+            {
+                var trigger = CreateTrigger(pointTransform, isSide);
+                grid.TriggerLinkMap[$"{Row}-{Column};{point.Row}-{point.Column}"] = trigger;
+            }
 		}
 	}
 

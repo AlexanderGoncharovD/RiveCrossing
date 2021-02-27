@@ -20,7 +20,7 @@ namespace PLExternal.Level
             "1A BL NX",
             "3K FH",
             "AC F2 WV",
-            "DS G2", // 5
+            "DS G2 PU", // 5
             "2G GV VX",
             "BA HR 3L",
             "2G GQ QT",
@@ -115,7 +115,7 @@ namespace PLExternal.Level
             "1ABLMNXYZ",
             "3KFHRT9",
             "2FACDNLVWYT9",
-            "2G-GQ GQ-QS DS-AD AD-AP PU-PQ PQ-ST ST-T9", // 5
+            "2GQSDAPQST9", // 5
             "2G-NX GV-KN VX-AK NX-AC KN-CR CR-R9",
             "3L-BL AB-BC BC-CH HR-CE CH-BC BL-LN LN-N8",
             "2G-GI QT-IX WX-DI IX-QT DI-T9",

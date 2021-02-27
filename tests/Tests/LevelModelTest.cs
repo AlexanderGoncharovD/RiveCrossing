@@ -117,8 +117,8 @@ namespace Tests
         {
             var converter = new LevelConverter();
 
-            var solutionByIndex = converter.GetLevelSolutionByIndex(2);
-            var solutionByNumber = converter.GetLevelSolutionByNumber(3);
+            var solutionByIndex = converter.GetLevelSolutionByIndex(4);
+            var solutionByNumber = converter.GetLevelSolutionByNumber(5);
 
             Assert.AreEqual(solutionByIndex, solutionByNumber);
             Assert.AreEqual(solutionByNumber, "6-1;4-1;3-1;3-3;2-3;0-3");
