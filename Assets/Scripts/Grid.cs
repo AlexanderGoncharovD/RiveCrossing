@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using PLExternal.Enums;
+using PLExternal.Helper;
+using PLExternal.Level;
 using UnityEngine;
 
 public class Grid
@@ -25,7 +27,7 @@ public class Grid
 	private Point _finishpoint;
 	private GameControl _gameControl;
 
-	#endregion
+    #endregion
 
 	#region Properties
 
@@ -47,6 +49,11 @@ public class Grid
 	public Point StartPoint => _startpoint;
 	public Point FinishPoint => _finishpoint;
 
+	/// <summary>
+	///		Длины платформ на уровне
+	/// </summary>
+	public List<int> PlatformLengths { get; private set; }
+
 	#endregion
 
 	#region .ctor
@@ -63,6 +70,8 @@ public class Grid
 		{
 			_platforms.Add(platform.Split(';').ToArray());
 		}
+
+        PlatformLengths = PlatformHelper.GetPlatformLengths(_platforms);
 		GenerationGrid();
 	}
 
@@ -182,79 +191,64 @@ public class Grid
 		}
 	}
 
-
-	private List<GameObject> GetOtherPoints(GameObject point, int row, int col)
+	/// <summary>
+	///		Задаёт побочные точки
+	/// </summary>
+	/// <param name="basePoint">Точка для которой ищутся побочные</param>
+	private List<GameObject> GetOtherPoints(GameObject basePoint, int row, int col)
 	{
 		var result = new List<GameObject>();
-		var horizontalPoints = _points.Where(p => p.transform != point.transform);
-		var component = point.GetComponent<Point>();
+		var otherPoints = _points.Where(p => p.transform != basePoint.transform);
+		var component = basePoint.GetComponent<Point>();
 
 		// Если у точки нет ни следующей ни придыдущей точки, занчит она побочная
 		if (component.NextPoint == null && component.BackPoint == null)
 		{
 			component.Type = PointType.Side;
-			//return result;
 		}
 
 		for (int i = row-1; i > 0; i--)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
-			if (po != null)
-			{
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po); 
-				break;
-			}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
+            CheckAndAddPoint(po);
 		}
 		for (int i = row + 1; i < 6; i++)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
-			if (po != null)
-			{
-
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po);
-				break;
-			}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
+            CheckAndAddPoint(po);
 		}
 
 		for (int i = col - 1; i > 0; i--)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
-			if (po != null)
-			{
-
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po);
-				break;
-			}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
+            CheckAndAddPoint(po);
 		}
 		for (int i = col + 1; i < 6; i++)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
-			if (po != null)
-			{
-
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po);
-				break;
-			}
-		}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
+            CheckAndAddPoint(po);
+        }
 		return result;
 
+
+        void CheckAndAddPoint(GameObject point)
+        {
+            if (point == null)
+            {
+				return;
+            }
+
+            if (point.transform == component.NextPoint || point.transform == component.BackPoint)
+            {
+				return;
+            }
+
+            if(Mathf.CeilToInt(Vector3.Distance(basePoint.transform.position, point.transform.position)) <= PlatformLengths.Max())
+            {
+                result.Add(point);
+			}
+        }
 	}
 
-	#endregion
+    #endregion
 }

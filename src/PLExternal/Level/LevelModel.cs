@@ -113,8 +113,8 @@ namespace PLExternal.Level
         {
             "2GHRS9", // 1
             "1ABLMNXYZ",
-            "3KFHT9",
-            "2F-AF AF-CD AC-DN DN-LN LN-LV LV-WY VW-TY TY-T9",
+            "3KFHRT9",
+            "2FACDNLVWYT9",
             "2G-GQ GQ-QS DS-AD AD-AP PU-PQ PQ-ST ST-T9", // 5
             "2G-NX GV-KN VX-AK NX-AC KN-CR CR-R9",
             "3L-BL AB-BC BC-CH HR-CE CH-BC BL-LN LN-N8",

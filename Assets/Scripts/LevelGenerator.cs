@@ -61,7 +61,7 @@ public class LevelGenerator : MonoBehaviour
 	{
 		_camera = Camera.main;
 		_levelConverter = new LevelConverter();
-		LoadLevel(3);
+		LoadLevel(4);
 		SpawnPlayer();
 	}
 
