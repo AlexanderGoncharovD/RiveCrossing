@@ -13,7 +13,7 @@ namespace PLExternal.Helper
         ///		Получает длину платформы из её циферных координат
         /// </summary>
         /// <param name="platforms">Список платформ</param>
-        public static List<int> GetPlatformLengths(IEnumerable<string[]> platforms)
+        public static List<int> GetPlatformLengths(IEnumerable<IEnumerable<string>> platforms)
         {
             var list = new List<int>();
 

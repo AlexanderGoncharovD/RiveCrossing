@@ -10,32 +10,32 @@ namespace PLExternal.Level
         /// <summary>
         ///     Получить уровень по индексу
         /// </summary>
-        string GetLevelByIndex(int index);
+        IEnumerable<string> GetLevelByIndex(int index);
 
         /// <summary>
         ///     Получить уровень по номеру
         /// </summary>
-        string GetLevelByNumber(int number);
+        IEnumerable<string> GetLevelByNumber(int number);
 
 
         /// <summary>
         ///     Получить решение уровеня по индексу
         /// </summary>
-        string GetLevelSolutionByIndex(int index);
+        IEnumerable<string> GetLevelSolutionByIndex(int index);
 
         /// <summary>
         ///     Получить решение уровеня по номеру
         /// </summary>
-        string GetLevelSolutionByNumber(int number);
+        IEnumerable<string> GetLevelSolutionByNumber(int number);
 
         /// <summary>
         ///     Получить платофрмы для уровня по индексу
         /// </summary>
-        string GetLevelPlatformsByIndex(int index);
+        IEnumerable<IEnumerable<string>> GetLevelPlatformsByIndex(int index);
 
         /// <summary>
         ///     Получить платофрмы для уровня по номеру
         /// </summary>
-        string GetLevelPlatformsByNumber(int number);
+        IEnumerable<IEnumerable<string>> GetLevelPlatformsByNumber(int number);
     }
 }

@@ -20,7 +20,7 @@ namespace PLExternal.Level
         #region Public Methods
 
         /// <inheritdoc/>
-        public string GetLevelByIndex(int index)
+        public IEnumerable<string> GetLevelByIndex(int index)
         {
             var baseline= LevelModel.Levels[index];
 
@@ -28,7 +28,7 @@ namespace PLExternal.Level
         }
 
         /// <inheritdoc/>
-        public string GetLevelByNumber(int number)
+        public IEnumerable<string> GetLevelByNumber(int number)
         {
             if (number == 0)
             {
@@ -40,7 +40,7 @@ namespace PLExternal.Level
         }
 
         /// <inheritdoc/>
-        public string GetLevelSolutionByIndex(int index)
+        public IEnumerable<string> GetLevelSolutionByIndex(int index)
         {
             var baseline = LevelModel.Solutions[index];
 
@@ -48,7 +48,7 @@ namespace PLExternal.Level
         }
 
         /// <inheritdoc/>
-        public string GetLevelSolutionByNumber(int number)
+        public IEnumerable<string> GetLevelSolutionByNumber(int number)
         {
             if (number == 0)
             {
@@ -61,7 +61,7 @@ namespace PLExternal.Level
         }
 
         /// <inheritdoc/>
-        public string GetLevelPlatformsByIndex(int index)
+        public IEnumerable<IEnumerable<string>> GetLevelPlatformsByIndex(int index)
         {
             var baseline = LevelModel.Platforms[index];
 
@@ -69,7 +69,7 @@ namespace PLExternal.Level
         }
 
         /// <inheritdoc/>
-        public string GetLevelPlatformsByNumber(int number)
+        public IEnumerable<IEnumerable<string>> GetLevelPlatformsByNumber(int number)
         {
             if (number == 0)
             {
@@ -88,58 +88,58 @@ namespace PLExternal.Level
         /// </summary>
         /// <param name="baseline"></param>
         /// <returns></returns>
-        private string ConvertToPlatforms(string baseline)
+        private IEnumerable<IEnumerable<string>> ConvertToPlatforms(string baseline)
         {
-            var map = new List<string>();
+            var map = new List<List<string>>();
 
             var levelPairs = baseline.Split(' ');
 
             foreach (var pair in levelPairs)
             {
                 var symbols = pair.ToCharArray();
-                var platform = new List<LevelPoint>();
+                var platform = new List<string>();
 
                 foreach (var symbol in symbols)
                 {
-                    platform.Add(LevelModel.MapPoints[symbol.ToString()]);
+                    platform.Add(LevelModel.MapPoints[symbol.ToString()].ToString());
                 }
-                map.Add(string.Join(";", platform));
+                map.Add(platform);
             }
 
-            return string.Join("#", map);
+            return map;
         }
 
         /// <summary>
         ///     Преобразует строку базового уровня в игровоей поле
         /// </summary>
         /// <param name="baseline">Строка базового уровня</param>
-        private string ConvertToLevel(string baseline)
+        private IEnumerable<string> ConvertToLevel(string baseline)
         {
-            var map = new List<LevelPoint>();
+            var map = new List<string>();
 
             foreach (var symbol in baseline.Split(' '))
             {
-                map.Add(LevelModel.MapPoints[symbol]);
+                map.Add(LevelModel.MapPoints[symbol].ToString());
             }
 
-            return string.Join(";", map);
+            return map;
         }
 
         /// <summary>
         ///     Преобразует исходную строку решения уровня в строку решения для игрового поля
         /// </summary>
         /// <param name="baseline">Исходная строка решения уровня</param>
-        private string ConvertToSolution(string baseline)
+        private IEnumerable<string> ConvertToSolution(string baseline)
         {
-            var map = new List<LevelPoint>();
+            var map = new List<string>();
             var symbols = baseline.ToCharArray();
 
             foreach (var symbol in symbols)
             {
-                map.Add(LevelModel.MapPoints[symbol.ToString()]);
+                map.Add(LevelModel.MapPoints[symbol.ToString()].ToString());
             }
 
-            return string.Join(";", map);
+            return map;
         }
     }
 }

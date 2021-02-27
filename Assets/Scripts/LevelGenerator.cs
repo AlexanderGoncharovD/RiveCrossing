@@ -31,17 +31,17 @@ public class LevelGenerator : MonoBehaviour
 	/// <summary>
 	///		Карта уровня
 	/// </summary>
-	private string _map = /*"6-1;3-1;3-3;2-3;4-1;0-3;4-3"*/ "6-1;5-1;5-2;5-3;5-4;4-2;4-3;3-3;3-0;2-4;2-1;1-4;1-2;0-3";
+	private IEnumerable<string> _map;
 
-	/// <summary>
-	///		Решение уровня
-	/// </summary>
-	private string _solution = /*"6-1;4-1;3-1;3-3;2-3;0-3"*/ "6-1;5-1;5-2;5-3;4-3;3-3;0-3";
+    /// <summary>
+    ///		Решение уровня
+    /// </summary>
+    private IEnumerable<string> _solution;
 
 	/// <summary>
 	///		Расположение платформ
 	/// </summary>
-	private string _platforms = "6-1;5-1#5-4;2-4#2-4;1-4";
+	private IEnumerable<IEnumerable<string>> _platforms;
 
 	private Camera _camera;
     private GameControl _gameControl;

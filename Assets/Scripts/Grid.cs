@@ -19,9 +19,9 @@ public class Grid
 	/// <summary>
 	///		Карта точек уровня
 	/// </summary>
-	private List<string> _map;
+	private IEnumerable<string> _map;
 	private List<string> _solution;
-	private List<string[]> _platforms = new List<string[]>();
+	private IEnumerable<IEnumerable<string>> _platforms;
 	private List<GameObject> _points = new List<GameObject>();
 	private Point _startpoint;
 	private Point _finishpoint;
@@ -58,33 +58,20 @@ public class Grid
 
 	#region .ctor
 
-	public Grid(GameObject pointModel, GameObject platformModel, string map, string solution, string platforms)
+	public Grid(GameObject pointModel, GameObject platformModel, IEnumerable<string> map, IEnumerable<string> solution, IEnumerable<IEnumerable<string>> platforms)
 	{
 		_gameControl = Camera.main.GetComponent<GameControl>();
 		_pointModel = pointModel;
 		_platformModel = platformModel;
-		_map = map.Split(';').ToList();
-		_solution = solution.Split(';').ToList();
-		var strPlatforms = platforms.Split('#').ToList();
-		foreach (var platform in strPlatforms)
-		{
-			_platforms.Add(platform.Split(';').ToArray());
-		}
-
+        _map = map;
+		_solution = solution.ToList();
+        _platforms = platforms;
+		
         PlatformLengths = PlatformHelper.GetPlatformLengths(_platforms);
 		GenerationGrid();
 	}
 
-	public Grid(int row, int col, float step, GameObject pointModel)
-	{
-		_row = row;
-		_col = col;
-		_step = step;
-		_pointModel = pointModel;
-		GenerationGrid();
-	}
-
-	#endregion
+    #endregion
 
 	#region Private Methods
 
@@ -178,8 +165,8 @@ public class Grid
 	{
 		foreach (var item in _platforms)
 		{
-			var onePoint = _points.First(p => p.name.Equals(item[0])).transform;
-			var twoPoint = _points.First(p => p.name.Equals(item[1])).transform;
+			var onePoint = _points.First(p => p.name.Equals(item.First())).transform;
+			var twoPoint = _points.First(p => p.name.Equals(item.Last())).transform;
 			var center = (onePoint.position + twoPoint.position) / 2.0f;
 			var length = Vector3.Distance(onePoint.position, twoPoint.position);
 			var isVertical = onePoint.position.y == twoPoint.position.y;
