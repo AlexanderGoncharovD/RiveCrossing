@@ -16,7 +16,7 @@ public class GameControl : MonoBehaviour
     /// <summary>
     ///     Платформа, которую тащем
     /// </summary>
-    public Transform DragPlatform { get; set; }
+    public TouchPlatform DragPlatform { get; set; }
     
     public List<TouchPlatform> Platforms { get; set; } = new List<TouchPlatform>();
 
@@ -130,7 +130,7 @@ public class GameControl : MonoBehaviour
 
     private bool IsHavePlatform(Platform platform)
     {
-        foreach (var touchPlatform in Platforms)
+        foreach (var touchPlatform in Platforms.Where(_ => _ != DragPlatform))
         {
             if (touchPlatform.Platform.CoincidencesStrict(platform))
             {

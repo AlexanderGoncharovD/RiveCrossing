@@ -169,7 +169,6 @@ public class TouchPlatform : MonoBehaviour
         }
         _collider.enabled = false;
         _animator.Play("Move");
-        _gameControl.RecalculateAvailableTriggers();
     }
 
     private void OnMouseDrag()
@@ -179,7 +178,8 @@ public class TouchPlatform : MonoBehaviour
             return;
         }
         _isDrag = true;
-        _gameControl.DragPlatform = this.transform;
+        _gameControl.DragPlatform = this;
+        _gameControl.RecalculateAvailableTriggers();
         _gameControl.TriggerModels.ForEach(t =>
             {
                 if (Mathf.CeilToInt(t.Length) != length)
