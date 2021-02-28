@@ -25,7 +25,7 @@ public class TouchPlatform : MonoBehaviour
     /// <summary>
     ///     Ссылка на класс управляющий уровнем
     /// </summary>
-    private GameControl _gameControl;
+    private LevelManager _levelManager;
 
     /// <summary>
     ///     Позиция перед перемещением
@@ -92,10 +92,10 @@ public class TouchPlatform : MonoBehaviour
 
             if (value)
             {
-                _spriteComponent.sprite = _gameControl.LockPlatformsSprites[length - 1];
+                _spriteComponent.sprite = _levelManager.Helper.lockPlatformsSprites[length - 1];
                 return;
             }
-            _spriteComponent.sprite = _gameControl.PlatformsSprites[length - 1];
+            _spriteComponent.sprite = _levelManager.Helper.platformsSprites[length - 1];
         }
     }
 
@@ -116,24 +116,24 @@ public class TouchPlatform : MonoBehaviour
     public void Instantiate()
     {
         _camera = Camera.main;
-        _gameControl = _camera.GetComponent<GameControl>();
+        _levelManager = _camera.GetComponent<LevelManager>();
         _collider = GetComponent<BoxCollider>();
         _animator = GetComponent<Animator>();
         length = Mathf.CeilToInt(_collider.size.y);
         _spriteComponent = transform.GetComponentInChildren<SpriteRenderer>();
-        _spriteComponent.sprite = _gameControl.PlatformsSprites[length - 1];
+        _spriteComponent.sprite = _levelManager.Helper.platformsSprites[length - 1];
         tag = $"Platform{length}";
 
-        _gameControl.Platforms.Add(this);
+        _levelManager.Platforms.Add(this);
 
-        var trigger = _gameControl.TriggerModels.First(_ => _.Platform.CoincidencesStrict(Platform));
+        var trigger = _levelManager.TriggerModels.First(_ => _.Platform.CoincidencesStrict(Platform));
         if (trigger.TouchPlatform == null)
         {
             this.Trigger = trigger.Trigger;
             trigger.Trigger.TouchPlatform = this;
         }
     }
-    
+
     private void Start()
     {
         CacheFirstPosition();
@@ -192,9 +192,9 @@ public class TouchPlatform : MonoBehaviour
             return;
         }
         _isDrag = true;
-        _gameControl.DragPlatform = this;
-        _gameControl.RecalculateAvailableTriggers();
-        _gameControl.TriggerModels.ForEach(t =>
+        _levelManager.DragPlatform = this;
+        _levelManager.RecalculateAvailableTriggers();
+        _levelManager.TriggerModels.ForEach(t =>
             {
                 if (Mathf.CeilToInt(t.Length) != length)
                     t.GameObject.SetActive(false);
@@ -211,8 +211,8 @@ public class TouchPlatform : MonoBehaviour
 
         _collider.enabled = true;
         _isDrag = false;
-        _gameControl.DragPlatform = null;
-        _gameControl.TriggerModels.ForEach(t => t.GameObject.SetActive(true));
+        _levelManager.DragPlatform = null;
+        _levelManager.TriggerModels.ForEach(t => t.GameObject.SetActive(true));
 
         _animator.Play("Idle");
 
@@ -255,6 +255,6 @@ public class TouchPlatform : MonoBehaviour
         transform.position = Trigger.Pos;
         Platform = new Platform(Trigger.Platform.First, Trigger.Platform.Second);
         CacheFirstPosition();
-        _gameControl.RecalculateAvailableTriggers();
+        _levelManager.RecalculateAvailableTriggers();
     }
 }

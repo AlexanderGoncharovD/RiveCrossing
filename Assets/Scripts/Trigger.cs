@@ -12,7 +12,7 @@ public class Trigger : MonoBehaviour
 
     private Quaternion _rot;
     private Vector3 _pos;
-    private GameControl _gameControl;
+    private LevelManager _levelManager;
 
     #endregion
 
@@ -50,14 +50,14 @@ public class Trigger : MonoBehaviour
 
     private void Awake()
     {
-        _gameControl = Camera.main.GetComponent<GameControl>();
+        _levelManager = Camera.main.GetComponent<LevelManager>();
     }
 
     private void Start()
     {
         _rot = transform.rotation;
         _pos = transform.position;
-        GetComponentInChildren<SpriteRenderer>().sprite = _gameControl.PlatformsSprites[length - 1];
+        GetComponentInChildren<SpriteRenderer>().sprite = _levelManager.Helper.platformsSprites[length - 1];
     }
 
     #endregion
@@ -69,7 +69,7 @@ public class Trigger : MonoBehaviour
     /// </summary>
     public void PlatformEnter(TouchPlatform touchPlatform)
     {
-        if (_gameControl.DragPlatform != null)
+        if (_levelManager.DragPlatform != null)
         {
             GetComponentInChildren<SpriteRenderer>().enabled = true;
             TouchPlatform = touchPlatform;

@@ -3,31 +3,14 @@ using System.Collections.Generic;
 using PLExternal.Level;
 using UnityEngine;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator
 {
 	#region Private Fileds
 
+    private readonly LevelConverter _converter;
+    private readonly LevelManager _manager;
 	private Grid _grid;
-	private GameObject _player;
-
-	/// <summary>
-	///		Модель игровой точки
-	/// </summary>
-	[SerializeField]
-	private GameObject _pointModel;
-
-	/// <summary>
-	///		Модель игровой точки
-	/// </summary>
-	[SerializeField]
-	private GameObject _platformModel;
-
-	/// <summary>
-	///		Модель игрока
-	/// </summary>
-	[SerializeField]
-	private GameObject _playerModel;
-
+	
 	/// <summary>
 	///		Карта уровня
 	/// </summary>
@@ -43,38 +26,26 @@ public class LevelGenerator : MonoBehaviour
 	/// </summary>
 	private IEnumerable<IEnumerable<string>> _platforms;
 
-	private Camera _camera;
-    private GameControl _gameControl;
-    private LevelConverter _levelConverter;
-
 	#endregion
 
-	#region Public Fields
-
-
-
-	#endregion
-
-	#region Private Methods
-
-	private void Start()
-	{
-		_camera = Camera.main;
-		_levelConverter = new LevelConverter();
-		LoadLevel(5);
-		SpawnPlayer();
+    public LevelGenerator(LevelManager manager)
+    {
+        _manager = manager;
+        _converter = new LevelConverter();
 	}
-
+	
+	#region Private Methods
+	
 	/// <summary>
 	///		Загрузить игровой уровень
 	/// </summary>
-	private void LoadLevel(int level)
+	public void LoadLevel(int level)
     {
-        _gameControl = _camera.GetComponent<GameControl>();
-        _map = _levelConverter.GetLevelByNumber(level);
-        _platforms = _levelConverter.GetLevelPlatformsByNumber(level);
-        _solution = _levelConverter.GetLevelSolutionByNumber(level);
-        _grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
+        _map = _converter.GetLevelByNumber(level);
+        _platforms = _converter.GetLevelPlatformsByNumber(level);
+        _solution = _converter.GetLevelSolutionByNumber(level);
+        _grid = new Grid(_manager.Helper.pointModel, _manager.Helper.platformModel, _map, _solution, _platforms);
+        SpawnPlayer();
 	}
 
 	/// <summary>
@@ -82,9 +53,14 @@ public class LevelGenerator : MonoBehaviour
 	/// </summary>
 	private void SpawnPlayer()
 	{
-		_player = Instantiate(_playerModel, _grid.StartPoint.transform.position + new Vector3(0, 0, -1), Quaternion.identity);
-		_player.GetComponent<Player>().CurPoint = _grid.StartPoint.transform;
-		_camera.GetComponent<GameControl>().Player = _player.GetComponent<Player>();
+		var player = Player.Initialize(
+            model:    _manager.Helper.playerModel,
+            position: _grid.StartPoint.transform.position + new Vector3(0, 0, -1),
+            rotation: Quaternion.identity);
+
+        var playerComponent = player.GetComponent<Player>();
+        player.CurPoint = _grid.StartPoint.transform;
+		_manager.Player = playerComponent;
 	}
 	
 	#endregion

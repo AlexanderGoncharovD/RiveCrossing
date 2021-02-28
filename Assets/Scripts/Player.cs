@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     #region Private Fields
 
     private Transform _curPoint;
-    private GameControl _gameControl;
+    private LevelManager _levelManager;
     private Transform _nextPoint;
     private LineRenderer _line;
 
@@ -50,15 +50,22 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    public static Player Initialize(GameObject model, Vector3 position, Quaternion rotation)
+    {
+        var player = Instantiate(model, position, rotation);
+        var playerComponent = player.GetComponent<Player>();
+        return playerComponent;
+    }
+
     private void Start()
     {
-        _gameControl = Camera.main.GetComponent<GameControl>();
+        _levelManager = Camera.main.GetComponent<LevelManager>();
         _line = GameObject.FindGameObjectWithTag("Line").GetComponent<LineRenderer>();
         _cameraHeight = Camera.main.transform.position.z;
         _rigidbody = GetComponent<Rigidbody>();
         _visual = transform.GetChild(0);
         _animator = transform.GetChild(0).GetComponent<Animator>();
-        _gameControl.PlayerInitialized();
+        _levelManager.PlayerInitialized();
     }
 
     // Update is called once per frame
@@ -92,8 +99,8 @@ public class Player : MonoBehaviour
         _line.SetPosition(0, CurPoint.position);
         _isDraw = true;
 
-        _gameControl.ChangeEnabledTriggerPlatforms(false);
-        _gameControl.ChangeEnabledColliderPoints(true);
+        _levelManager.ChangeEnabledTriggerPlatforms(false);
+        _levelManager.ChangeEnabledColliderPoints(true);
     }
 
     /// <summary>
@@ -153,7 +160,7 @@ public class Player : MonoBehaviour
             if (!_way.Contains(_nextPoint))
             {
                 var lastPoint = _way.Any() ? _way.Last() : CurPoint;
-                if (_gameControl.Platforms.Any(p => p.Platform.Comapre(lastPoint, _nextPoint)))
+                if (_levelManager.Platforms.Any(p => p.Platform.Comapre(lastPoint, _nextPoint)))
                 {
                      _way.Add(_nextPoint);
                     _line.SetPosition(_line.positionCount - 1, _nextPoint.position);
@@ -215,8 +222,8 @@ public class Player : MonoBehaviour
         _animator.Play("Idle_v2");
         _way.Clear();
         _line.positionCount = 0;
-        _gameControl.RecalculateAvailableTriggers();
-        _gameControl.ChangeEnabledColliderPoints(false);
+        _levelManager.RecalculateAvailableTriggers();
+        _levelManager.ChangeEnabledColliderPoints(false);
     }
 
     private void RemoveLastPoint()

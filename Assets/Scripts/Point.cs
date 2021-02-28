@@ -13,7 +13,7 @@ public class Point : MonoBehaviour
     private LevelPoint _levelPoint;
 
 	private Transform _nextPoint;
-    private GameControl _gameControl;
+    private LevelManager _levelManager;
     private Camera _camera;
 
 	/// <summary>
@@ -99,8 +99,8 @@ public class Point : MonoBehaviour
     public void Instantiate()
     {
         _camera = Camera.main;
-        _gameControl = _camera.GetComponent<GameControl>();
-        _gameControl.LevelPoints[transform] = _levelPoint;
+        _levelManager = _camera.GetComponent<LevelManager>();
+        _levelManager.LevelPoints[transform] = _levelPoint;
     }
 
 	#region Private Methods

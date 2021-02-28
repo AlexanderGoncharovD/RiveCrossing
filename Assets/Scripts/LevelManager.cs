@@ -2,15 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Helper;
 using PLExternal;
 using PLExternal.Map;
 using UnityEngine;
 using UnityEngine.Video;
 
 
-public class GameControl : MonoBehaviour
+[RequireComponent(typeof(LevelModelHelper))]
+public class LevelManager : MonoBehaviour
 {
-    public List<Trigger> triggers = new List<Trigger>();
+
+    private LevelGenerator _generator;
     public List<CapsuleCollider> pointsColliders = new List<CapsuleCollider>();
 
     /// <summary>
@@ -18,6 +21,9 @@ public class GameControl : MonoBehaviour
     /// </summary>
     public TouchPlatform DragPlatform { get; set; }
     
+    /// <summary>
+    ///     Все платформы на уровне
+    /// </summary>
     public List<TouchPlatform> Platforms { get; set; } = new List<TouchPlatform>();
 
     public Player Player { get; set; }
@@ -25,20 +31,20 @@ public class GameControl : MonoBehaviour
     public LevelPoint StartPoint { get; set; }
     public LevelPoint FinishPoint { get; set; }
 
-    public Sprite[] PlatformsSprites;
-    public Sprite[] LockPlatformsSprites;
-
-    public List<TouchPlatform> UnlockedPlatforms = new List<TouchPlatform>();
     public List<LevelPoint> AvailablePoints = new List<LevelPoint>();
     public List<TriggerModel> TriggerModels = new List<TriggerModel>();
     public Dictionary<Transform, LevelPoint> LevelPoints = new Dictionary<Transform, LevelPoint>();
+    public LevelModelHelper Helper { get; private set; }
 
     private void Awake()
     {
+        Helper = GetComponent<LevelModelHelper>();
+        _generator = new LevelGenerator(this);
     }
 
-    void Start()
+    private void Start()
     {
+        _generator.LoadLevel(5);
     }
 
     // Update is called once per frame
@@ -76,6 +82,9 @@ public class GameControl : MonoBehaviour
         RecalculateAvailableTriggers();
     }
 
+    /// <summary>
+    ///     Пересчёт доступных триггеров для установки платформы
+    /// </summary>
     public void RecalculateAvailableTriggers()
     {
         AvailablePoints.Clear();
@@ -101,7 +110,7 @@ public class GameControl : MonoBehaviour
                             continue;
                         }
 
-                        if (IsHavePlatform(trigger))
+                        if (TriggerHavePlatform(trigger))
                         {
                             foreach (var point in trigger.GetPoints())
                             {
@@ -128,7 +137,11 @@ public class GameControl : MonoBehaviour
         }
     }
 
-    private bool IsHavePlatform(Platform platform)
+    /// <summary>
+    ///     Проверяет наличие платформы у триггера
+    /// </summary>
+    /// <param name="platform">Координаты расположения триггера</param>
+    private bool TriggerHavePlatform(Platform platform)
     {
         foreach (var touchPlatform in Platforms.Where(_ => _ != DragPlatform))
         {
@@ -141,6 +154,9 @@ public class GameControl : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    ///     Находит список тригеров соприкасающихся с точкой и возвращает их платформы
+    /// </summary>
     private IEnumerable<Platform> GetTriggersPlatformFromPoint(LevelPoint point)
     {
         var triggers = new List<Platform>();
@@ -154,21 +170,6 @@ public class GameControl : MonoBehaviour
         }
 
         return triggers.Count > 0 ? triggers : null;
-    }
-
-    private IEnumerable<Platform> GetPlatformsFromPoint(LevelPoint point)
-    {
-        var platforms = new List<Platform>();
-
-        foreach (var platform in Platforms)
-        {
-            if (platform.Platform.Coincidences(point))
-            {
-                platforms.Add(platform.Platform);
-            }
-        }
-
-        return platforms.Count > 0 ? platforms : null;
     }
     
     #endregion

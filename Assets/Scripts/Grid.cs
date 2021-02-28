@@ -26,7 +26,7 @@ public class Grid
 	private List<GameObject> _points = new List<GameObject>();
 	private Point _startpoint;
 	private Point _finishpoint;
-	private GameControl _gameControl;
+	private LevelManager _levelManager;
 
     #endregion
 
@@ -66,7 +66,7 @@ public class Grid
 
 	public Grid(GameObject pointModel, GameObject platformModel, IEnumerable<string> map, IEnumerable<string> solution, IEnumerable<IEnumerable<string>> platforms)
 	{
-		_gameControl = Camera.main.GetComponent<GameControl>();
+		_levelManager = Camera.main.GetComponent<LevelManager>();
 		_pointModel = pointModel;
 		_platformModel = platformModel;
         _map = map;
@@ -103,7 +103,7 @@ public class Grid
 				{
                     var point = Point.Initialize(_pointModel, position, Quaternion.Euler(90, 0, 0), r, c);
 					_points.Add(point);
-					_gameControl.pointsColliders.Add(point.GetComponent<CapsuleCollider>());
+					_levelManager.pointsColliders.Add(point.GetComponent<CapsuleCollider>());
 
 				}
 				position += new Vector3(1, 0, 0);
@@ -113,15 +113,15 @@ public class Grid
 
 		_startpoint = _points.Last().GetComponent<Point>();
 		_startpoint.Type = PointType.Start;
-        _gameControl.StartPoint = _startpoint.LevelPoint;
+        _levelManager.StartPoint = _startpoint.LevelPoint;
 
 		_finishpoint = _points.First().GetComponent<Point>();
 		_finishpoint.Type = PointType.Finish;
-        _gameControl.FinishPoint= _finishpoint.LevelPoint;
+        _levelManager.FinishPoint= _finishpoint.LevelPoint;
 
 		SetNextBackPoints();
 		SetOthersPoints();
-		_points.ForEach(p => _gameControl.TriggerModels.AddRange(p.GetComponent<Point>().GenerateTriggers(this)));
+		_points.ForEach(p => _levelManager.TriggerModels.AddRange(p.GetComponent<Point>().GenerateTriggers(this)));
 		GenerationPlatforms();
 	}
 
