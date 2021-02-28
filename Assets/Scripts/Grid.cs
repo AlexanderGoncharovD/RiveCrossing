@@ -4,6 +4,7 @@ using System.Linq;
 using PLExternal.Enums;
 using PLExternal.Helper;
 using PLExternal.Level;
+using PLExternal.Map;
 using UnityEngine;
 
 public class Grid
@@ -100,11 +101,7 @@ public class Grid
 			{
 				if (_map.Any(e => e.Equals($"{r}-{c}")))
 				{
-					var point = MonoBehaviour.Instantiate(_pointModel, position, Quaternion.Euler(90, 0, 0));
-					point.name = $"{r}-{c}";
-					var component = point.GetComponent<Point>();
-					component.Column = c;
-					component.Row = r;
+                    var point = Point.Initialize(_pointModel, position, Quaternion.Euler(90, 0, 0), r, c);
 					_points.Add(point);
 					_gameControl.pointsColliders.Add(point.GetComponent<CapsuleCollider>());
 
@@ -116,9 +113,11 @@ public class Grid
 
 		_startpoint = _points.Last().GetComponent<Point>();
 		_startpoint.Type = PointType.Start;
+        _gameControl.StartPoint = _startpoint.LevelPoint;
 
 		_finishpoint = _points.First().GetComponent<Point>();
 		_finishpoint.Type = PointType.Finish;
+        _gameControl.FinishPoint= _finishpoint.LevelPoint;
 
 		SetNextBackPoints();
 		SetOthersPoints();
@@ -176,11 +175,14 @@ public class Grid
 			var length = Vector3.Distance(onePoint.position, twoPoint.position);
 			var isVertical = onePoint.position.y == twoPoint.position.y;
 
-			var platform = MonoBehaviour.Instantiate(_platformModel, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
-			platform.GetComponent<BoxCollider>().size = new Vector3(0.5f, length, 0.5f);
-			platform.GetComponent<TouchPlatform>().Points.SetPoints(onePoint, twoPoint);
-			_gameControl.Platforms.Add(platform.GetComponent<TouchPlatform>().Points);
-		}
+			var platform = TouchPlatform.Initialize(
+                _platformModel, 
+                center, 
+                Quaternion.Euler(0, 0, isVertical ? 90 : 0),
+                length,
+                onePoint, 
+                twoPoint);
+        }
 	}
 
 	/// <summary>

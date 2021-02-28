@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PLExternal.Level;
 using UnityEngine;
 
 /// <summary>
@@ -57,6 +58,7 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _visual = transform.GetChild(0);
         _animator = transform.GetChild(0).GetComponent<Animator>();
+        _gameControl.ChangeLockedPlatforms(new LevelPoint(CurPoint.name));
     }
 
     // Update is called once per frame
@@ -151,12 +153,12 @@ public class Player : MonoBehaviour
             if (!_way.Contains(_nextPoint))
             {
                 var lastPoint = _way.Any() ? _way.Last() : CurPoint;
-                if (_gameControl.Platforms.Any(p => p.Comapre(lastPoint, _nextPoint)))
+                if (_gameControl.Platforms.Any(p => p.Platform.Comapre(lastPoint, _nextPoint)))
                 {
                      _way.Add(_nextPoint);
                     _line.SetPosition(_line.positionCount - 1, _nextPoint.position);
                     _line.positionCount++;
-                    SetLineToCursor(out var direction);
+                    SetLineToCursor(out _);
                 }
             }
         }

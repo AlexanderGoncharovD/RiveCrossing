@@ -18,11 +18,17 @@ public class GameControl : MonoBehaviour
     /// </summary>
     public Transform DragPlatform { get; set; }
     
-    public List<PlatformPoints> Platforms { get; set; } = new List<PlatformPoints>();
+    public List<TouchPlatform> Platforms { get; set; } = new List<TouchPlatform>();
 
     public Player Player { get; set; }
 
+    public LevelPoint StartPoint { get; set; }
+    public LevelPoint FinishPoint { get; set; }
+
     public Sprite[] PlatformsSprites;
+    public Sprite[] LockPlatformsSprites;
+
+    public List<TouchPlatform> UnlockedPlatforms = new List<TouchPlatform>();
 
     private void Awake()
     {
@@ -65,6 +71,70 @@ public class GameControl : MonoBehaviour
     public void ChangeEnabledColliderPoints(bool enabled)
     {
         pointsColliders.ForEach(p => p.enabled = enabled);
+    }
+
+    public void CheckUnlocked(TouchPlatform platform)
+    {
+        if(!UnlockedPlatforms.Any())
+        {
+            if (platform.Platform.Coincidences(StartPoint))
+            {
+                AddUnlockedPlatform(platform);
+                return;
+            }
+
+            RemoveUnlockedPlatform(platform);
+            return;
+        }
+
+        foreach (var unlockedPlatform in UnlockedPlatforms)
+        {
+            if (unlockedPlatform.Platform.Coincidences(platform.Platform))
+            {
+                AddUnlockedPlatform(platform);
+                continue;
+            }
+
+            RemoveUnlockedPlatform(platform);
+        }
+    }
+
+    private void AddUnlockedPlatform(TouchPlatform platform)
+    {
+        if (!UnlockedPlatforms.Contains(platform))
+        {
+            UnlockedPlatforms.Add(platform);
+        }
+        platform.IsLocked = false;
+    }
+
+    private void RemoveUnlockedPlatform(TouchPlatform platform)
+    {
+        if (UnlockedPlatforms.Contains(platform))
+        {
+            UnlockedPlatforms.Remove(platform);
+        }
+        platform.IsLocked = true;
+    }
+
+    public void ChangeLockedPlatforms(LevelPoint point)
+    {
+        /*var unlockedTriggers = triggers.Where(t 
+            => t.Platform.Coincidences(point))
+            .ToList();
+
+        Platforms.ForEach(platform =>
+            {
+                if (unlockedTriggers.Contains(platform.trigger))
+                {
+                    platform.IsLocked = false;
+                }
+                else
+                {
+                    platform.IsLocked = true;
+                }
+            }
+        );*/
     }
 
     #endregion

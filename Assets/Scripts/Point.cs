@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using PLExternal.Enums;
+using PLExternal.Level;
+using PLExternal.Map;
 using UnityEngine;
 
 public class Point : MonoBehaviour
 {
 	#region Private Fields
+
+    private LevelPoint _levelPoint;
 
 	private Transform _nextPoint;
 
@@ -68,12 +72,26 @@ public class Point : MonoBehaviour
 	/// </summary>
 	public int Row { get; set; }
 
+    public LevelPoint LevelPoint => _levelPoint;
+
 	/// <summary>
 	///		Длинная до NextPoint
 	/// </summary>
 	public int Length => Mathf.CeilToInt(_lengthWay);
 
 	#endregion
+
+    public static GameObject Initialize(GameObject model, Vector3 position, Quaternion rotation, int row, int col)
+    {
+        var point = MonoBehaviour.Instantiate(model, position, rotation);
+        point.name = $"{row}-{col}";
+        var component = point.GetComponent<Point>();
+        component.Column = col;
+        component.Row = row;
+		component._levelPoint = new LevelPoint(row, col);
+
+        return point;
+    }
 
 	#region Private Methods
 
@@ -142,7 +160,7 @@ public class Point : MonoBehaviour
 		trigger.GetComponent<BoxCollider>().size = new Vector3(1.0f, length, 0.25f);
         var triggerComponent = trigger.GetComponent<Trigger>();
         triggerComponent.length = (int)length;
-        triggerComponent.Points.SetPoints(point, transform);
+        triggerComponent.Platform = new Platform(point, transform);
 
         return triggerComponent;
     }

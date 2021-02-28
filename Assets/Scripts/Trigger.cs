@@ -37,7 +37,7 @@ public class Trigger : MonoBehaviour
     /// </summary>
     public Quaternion Rot => _rot;
 
-    public PlatformPoints Points { get; set; } = new PlatformPoints();
+    public Platform Platform { get; set; } = new Platform();
 
     #endregion
 
@@ -58,7 +58,7 @@ public class Trigger : MonoBehaviour
     /// <summary>
     ///     Платформа попала в триггер
     /// </summary>
-    public void PlatformeEnter()
+    public void PlatformEnter()
     {
         if (_gameControl.DragPlatform != null)
         {

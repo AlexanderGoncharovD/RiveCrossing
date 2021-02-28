@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using PLExternal.Level;
 using UnityEngine;
 
 namespace PLExternal.Map
@@ -8,15 +9,20 @@ namespace PLExternal.Map
     /// <summary>
     /// Класс платформы
     /// </summary>
-    public class PlatformPoints
+    public struct Platform
     {
         public Transform First;
         public Transform Second;
 
-        public void SetPoints(Transform first, Transform second)
+        public LevelPoint FirstPoint{ get; set; }
+        public LevelPoint SecondPoint{ get; set; }
+
+        public Platform(Transform first, Transform second)
         {
             First = first;
             Second = second;
+            FirstPoint = new LevelPoint(first.name);
+            SecondPoint = new LevelPoint(second.name);
         }
 
         public Transform GetNextPoint(Transform curPoint)
@@ -49,6 +55,24 @@ namespace PLExternal.Map
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        ///     Есть ли совпадения с точками платформы
+        /// </summary>
+        /// <param name="point">Точка, с которой ищем совпадения</param>
+        public bool Coincidences(LevelPoint point)
+        {
+            return point == FirstPoint || point == SecondPoint;
+        }
+
+        /// <summary>
+        ///     Есть ли совпадения с точками платформы
+        /// </summary>
+        /// <param name="platform">Платформа, с которой ищем совпадения</param>
+        public bool Coincidences(Platform platform)
+        {
+            return Coincidences(platform.FirstPoint) || Coincidences(platform.SecondPoint);
         }
     }
 }
