@@ -58,7 +58,7 @@ public class Grid
 	/// <summary>
 	///		Словарь связи точек триггерами
 	/// </summary>
-	public Dictionary<string, Trigger> TriggerLinkMap { get; set; } = new Dictionary<string, Trigger>();
+	public Dictionary<string, TriggerModel> TriggerLinkMap { get; set; } = new Dictionary<string, TriggerModel>();
 
 	#endregion
 
@@ -121,7 +121,7 @@ public class Grid
 
 		SetNextBackPoints();
 		SetOthersPoints();
-		_points.ForEach(p => p.GetComponent<Point>().GenerateTriggers(this));
+		_points.ForEach(p => _gameControl.TriggerModels.AddRange(p.GetComponent<Point>().GenerateTriggers(this)));
 		GenerationPlatforms();
 	}
 

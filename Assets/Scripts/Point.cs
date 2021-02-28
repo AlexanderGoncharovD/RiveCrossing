@@ -13,6 +13,8 @@ public class Point : MonoBehaviour
     private LevelPoint _levelPoint;
 
 	private Transform _nextPoint;
+    private GameControl _gameControl;
+    private Camera _camera;
 
 	/// <summary>
 	///		Блок установки платформы
@@ -89,8 +91,16 @@ public class Point : MonoBehaviour
         component.Column = col;
         component.Row = row;
 		component._levelPoint = new LevelPoint(row, col);
+		component.Instantiate();
 
         return point;
+    }
+
+    public void Instantiate()
+    {
+        _camera = Camera.main;
+        _gameControl = _camera.GetComponent<GameControl>();
+        _gameControl.LevelPoints[transform] = _levelPoint;
     }
 
 	#region Private Methods
@@ -145,7 +155,7 @@ public class Point : MonoBehaviour
 	/// <param name="isSide">
 	///		Является ли точка побочной
 	/// </param>
-	private Trigger CreateTrigger(Transform point, bool isSide = false)
+	private TriggerModel CreateTrigger(Transform point, bool isSide = false)
 	{
 		var center = (point.position + transform.position) / 2.0f;
 		var isVertical = point.position.y == transform.position.y;
@@ -162,7 +172,7 @@ public class Point : MonoBehaviour
         triggerComponent.length = (int)length;
         triggerComponent.Platform = new Platform(point, transform);
 
-        return triggerComponent;
+        return new TriggerModel(trigger, triggerComponent);
     }
 
 	#endregion
@@ -172,12 +182,16 @@ public class Point : MonoBehaviour
 	/// <summary>
 	///		Генерировать блоки для установки платформ
 	/// </summary>
-	public void GenerateTriggers(Grid grid)
+	public IEnumerable<TriggerModel> GenerateTriggers(Grid grid)
 	{
+		var triggerModel = new List<TriggerModel>();
 		if (NextPoint != null)
         {
 			var component = NextPoint.GetComponent<Point>();
-            Create(NextPoint, component, false);
+			if (TryCreate(NextPoint, component, false, out var trigger))
+            {
+                triggerModel.Add(trigger);
+            }
 		}
 
 		if (OtherPoints.Any())
@@ -185,20 +199,28 @@ public class Point : MonoBehaviour
 			foreach (var otherPoint in OtherPoints)
 			{
 				var component = otherPoint.GetComponent<Point>();
-                Create(otherPoint, component, true);
+                if (TryCreate(otherPoint, component, true, out var trigger))
+                {
+                    triggerModel.Add(trigger);
+                }
             }
 		}
 
-        void Create(Transform pointTransform, Point point, bool isSide)
+        return triggerModel;
+
+        bool TryCreate(Transform pointTransform, Point point, bool isSide, out TriggerModel trigger)
         {
             if (!grid.TriggerLinkMap.ContainsKey($"{Row}-{Column};{point.Row}-{point.Column}")
                 && !grid.TriggerLinkMap.ContainsKey(
                     $"{point.Row}-{point.Column};{Row}-{Column}"))
             {
-                var trigger = CreateTrigger(pointTransform, isSide);
+                trigger = CreateTrigger(pointTransform, isSide);
                 grid.TriggerLinkMap[$"{Row}-{Column};{point.Row}-{point.Column}"] = trigger;
+                return true;
             }
-		}
+			trigger = TriggerModel.Empty();
+            return false;
+        }
 	}
 
 	#endregion

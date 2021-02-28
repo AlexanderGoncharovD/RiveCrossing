@@ -29,6 +29,9 @@ public class GameControl : MonoBehaviour
     public Sprite[] LockPlatformsSprites;
 
     public List<TouchPlatform> UnlockedPlatforms = new List<TouchPlatform>();
+    public List<LevelPoint> AvailablePoints = new List<LevelPoint>();
+    public List<TriggerModel> TriggerModels = new List<TriggerModel>();
+    public Dictionary<Transform, LevelPoint> LevelPoints = new Dictionary<Transform, LevelPoint>();
 
     private void Awake()
     {
@@ -46,11 +49,6 @@ public class GameControl : MonoBehaviour
 
     #region Public Methods
 
-    public void UpdateTriggerList()
-    {
-        triggers = GameObject.FindGameObjectsWithTag("Trigger").Select(g => g.GetComponent<Trigger>()).ToList();
-    }
-
     /// <summary>
     ///     Изменить состояние триггера платформ
     /// </summary>
@@ -59,7 +57,7 @@ public class GameControl : MonoBehaviour
     /// </param>
     public void ChangeEnabledTriggerPlatforms(bool enabled)
     {
-        triggers.ForEach(t => t.GetComponent<BoxCollider>().enabled = enabled);
+        TriggerModels.ForEach(t => t.ChangeActivity(enabled));
     }
 
     /// <summary>
@@ -73,69 +71,105 @@ public class GameControl : MonoBehaviour
         pointsColliders.ForEach(p => p.enabled = enabled);
     }
 
-    public void CheckUnlocked(TouchPlatform platform)
+    public void PlayerInitialized()
     {
-        if(!UnlockedPlatforms.Any())
-        {
-            if (platform.Platform.Coincidences(StartPoint))
-            {
-                AddUnlockedPlatform(platform);
-                return;
-            }
-
-            RemoveUnlockedPlatform(platform);
-            return;
-        }
-
-        foreach (var unlockedPlatform in UnlockedPlatforms)
-        {
-            if (unlockedPlatform.Platform.Coincidences(platform.Platform))
-            {
-                AddUnlockedPlatform(platform);
-                continue;
-            }
-
-            RemoveUnlockedPlatform(platform);
-        }
+        RecalculateAvailableTriggers();
     }
 
-    private void AddUnlockedPlatform(TouchPlatform platform)
+    public void RecalculateAvailableTriggers()
     {
-        if (!UnlockedPlatforms.Contains(platform))
+        AvailablePoints.Clear();
+        AvailablePoints.Add(LevelPoints[Player.CurPoint]);
+        var addPoints = new List<LevelPoint>();
+        var newAddedPoints = new List<LevelPoint>(AvailablePoints);
+        var checkedTriggers = new List<Platform>();
+        var availableTriggers = new List<Platform>();
+
+        do
         {
-            UnlockedPlatforms.Add(platform);
-        }
-        platform.IsLocked = false;
-    }
-
-    private void RemoveUnlockedPlatform(TouchPlatform platform)
-    {
-        if (UnlockedPlatforms.Contains(platform))
-        {
-            UnlockedPlatforms.Remove(platform);
-        }
-        platform.IsLocked = true;
-    }
-
-    public void ChangeLockedPlatforms(LevelPoint point)
-    {
-        /*var unlockedTriggers = triggers.Where(t 
-            => t.Platform.Coincidences(point))
-            .ToList();
-
-        Platforms.ForEach(platform =>
+            addPoints.Clear();
+            foreach (var availablePoint in newAddedPoints)
             {
-                if (unlockedTriggers.Contains(platform.trigger))
+                var triggers = GetTriggersPlatformFromPoint(availablePoint);
+                if (triggers != null)
                 {
-                    platform.IsLocked = false;
-                }
-                else
-                {
-                    platform.IsLocked = true;
+                    availableTriggers.AddRange(triggers);
+                    foreach (var trigger in triggers)
+                    {
+                        if (checkedTriggers.Contains(trigger))
+                        {
+                            continue;
+                        }
+
+                        if (IsHavePlatform(trigger))
+                        {
+                            foreach (var point in trigger.GetPoints())
+                            {
+                                if (!addPoints.Contains(point) && !AvailablePoints.Contains(point))
+                                {
+                                    addPoints.Add(point);
+                                }
+                            }
+                        }
+                        checkedTriggers.Add(trigger);
+                    }
                 }
             }
-        );*/
+
+            AvailablePoints.AddRange(addPoints);
+            newAddedPoints.Clear();
+            newAddedPoints.AddRange(addPoints);
+
+        } while (addPoints.Count != 0);
+
+        foreach (var triggerModel in TriggerModels)
+        {
+            triggerModel.ChangeActivity(availableTriggers.Contains(triggerModel.Platform));
+        }
     }
 
+    private bool IsHavePlatform(Platform platform)
+    {
+        foreach (var touchPlatform in Platforms)
+        {
+            if (touchPlatform.Platform.CoincidencesStrict(platform))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private IEnumerable<Platform> GetTriggersPlatformFromPoint(LevelPoint point)
+    {
+        var triggers = new List<Platform>();
+
+        foreach (var triggerModel in TriggerModels)
+        {
+            if (triggerModel.Platform.Coincidences(point))
+            {
+                triggers.Add(triggerModel.Platform);
+            }
+        }
+
+        return triggers.Count > 0 ? triggers : null;
+    }
+
+    private IEnumerable<Platform> GetPlatformsFromPoint(LevelPoint point)
+    {
+        var platforms = new List<Platform>();
+
+        foreach (var platform in Platforms)
+        {
+            if (platform.Platform.Coincidences(point))
+            {
+                platforms.Add(platform.Platform);
+            }
+        }
+
+        return platforms.Count > 0 ? platforms : null;
+    }
+    
     #endregion
 }

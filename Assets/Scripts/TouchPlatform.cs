@@ -112,7 +112,12 @@ public class TouchPlatform : MonoBehaviour
 
         _gameControl.Platforms.Add(this);
 
-        _gameControl.CheckUnlocked(this);
+        var trigger = _gameControl.TriggerModels.First(_ => _.Platform.CoincidencesStrict(Platform));
+        if (trigger.TouchPlatform == null)
+        {
+            this.trigger = trigger.Trigger;
+            trigger.Trigger.TouchPlatform = this;
+        }
     }
     
     private void Start()
@@ -139,7 +144,7 @@ public class TouchPlatform : MonoBehaviour
                     {
                         trigger?.GetComponent<Trigger>().PlatformExit();
                         trigger = hit.transform.GetComponent<Trigger>();
-                        trigger.GetComponent<Trigger>().PlatformEnter();
+                        trigger.GetComponent<Trigger>().PlatformEnter(this);
                     }
                 }
                 else
@@ -158,29 +163,41 @@ public class TouchPlatform : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (IsLocked)
+        {
+            return;
+        }
         _collider.enabled = false;
         _animator.Play("Move");
-
+        _gameControl.RecalculateAvailableTriggers();
     }
 
     private void OnMouseDrag()
     {
+        if (IsLocked)
+        {
+            return;
+        }
         _isDrag = true;
         _gameControl.DragPlatform = this.transform;
-        _gameControl.triggers.ForEach(t =>
+        _gameControl.TriggerModels.ForEach(t =>
             {
-                if (Mathf.CeilToInt(t.length) != length)
-                    t.gameObject.SetActive(false);
+                if (Mathf.CeilToInt(t.Length) != length)
+                    t.GameObject.SetActive(false);
             }
         );
     }
 
     private void OnMouseUp()
     {
+        if (IsLocked)
+        {
+            return;
+        }
         _collider.enabled = true;
         _isDrag = false;
         _gameControl.DragPlatform = null;
-        _gameControl.triggers.ForEach(t => t.gameObject.SetActive(true));
+        _gameControl.TriggerModels.ForEach(t => t.GameObject.SetActive(true));
 
         _animator.Play("Idle");
 
@@ -221,6 +238,6 @@ public class TouchPlatform : MonoBehaviour
         transform.position = trigger.Pos;
         Platform = new Platform(trigger.Platform.First, trigger.Platform.Second);
         CacheFirstPosition();
-        _gameControl.CheckUnlocked(this);
+        _gameControl.RecalculateAvailableTriggers();
     }
 }

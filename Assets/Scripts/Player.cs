@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _visual = transform.GetChild(0);
         _animator = transform.GetChild(0).GetComponent<Animator>();
-        _gameControl.ChangeLockedPlatforms(new LevelPoint(CurPoint.name));
+        _gameControl.PlayerInitialized();
     }
 
     // Update is called once per frame
@@ -215,7 +215,7 @@ public class Player : MonoBehaviour
         _animator.Play("Idle_v2");
         _way.Clear();
         _line.positionCount = 0;
-        _gameControl.ChangeEnabledTriggerPlatforms(true);
+        _gameControl.RecalculateAvailableTriggers();
         _gameControl.ChangeEnabledColliderPoints(false);
     }
 

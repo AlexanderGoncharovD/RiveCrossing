@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Point.cs" />
     <Compile Include="Assets\Scripts\TouchPlatform.cs" />
     <Compile Include="Assets\Scripts\Trigger.cs" />
+    <Compile Include="Assets\Scripts\TriggerModel.cs" />
     <Compile Include="Assets\Scripts\Water.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

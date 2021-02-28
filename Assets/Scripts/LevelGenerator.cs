@@ -75,7 +75,6 @@ public class LevelGenerator : MonoBehaviour
         _platforms = _levelConverter.GetLevelPlatformsByNumber(level);
         _solution = _levelConverter.GetLevelSolutionByNumber(level);
         _grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
-        _gameControl.UpdateTriggerList();
 	}
 
 	/// <summary>

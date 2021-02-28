@@ -35,6 +35,15 @@ namespace PLExternal.Map
 
         }
 
+        public IEnumerable<LevelPoint> GetPoints()
+        {
+            return new[]
+            {
+                FirstPoint,
+                SecondPoint
+            };
+        }
+
         /// <summary>
         ///     Сравнить платформу с точками
         /// </summary>
@@ -73,6 +82,20 @@ namespace PLExternal.Map
         public bool Coincidences(Platform platform)
         {
             return Coincidences(platform.FirstPoint) || Coincidences(platform.SecondPoint);
+        }
+
+        /// <summary>
+        ///     Есть ли совпадения с точками платформы
+        /// </summary>
+        /// <param name="platform">Платформа, с которой ищем совпадения</param>
+        public bool CoincidencesStrict(Platform platform)
+        {
+            return Coincidences(platform.FirstPoint) && Coincidences(platform.SecondPoint);
+        }
+
+        public override string ToString()
+        {
+            return $"{FirstPoint};{SecondPoint}";
         }
     }
 }
