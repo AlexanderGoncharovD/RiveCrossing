@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Helper;
 using PLExternal;
+using PLExternal.Enums;
 using PLExternal.Map;
 using UnityEngine;
 using UnityEngine.Video;
@@ -63,7 +64,7 @@ public class LevelManager : MonoBehaviour
     /// </param>
     public void ChangeEnabledTriggerPlatforms(bool enabled)
     {
-        TriggerModels.ForEach(t => t.ChangeActivity(enabled));
+        TriggerModels.ForEach(t => t.ChangeActivity(enabled, MoveMode.Player));
     }
 
     /// <summary>
@@ -133,7 +134,7 @@ public class LevelManager : MonoBehaviour
 
         foreach (var triggerModel in TriggerModels)
         {
-            triggerModel.ChangeActivity(availableTriggers.Contains(triggerModel.Platform));
+            triggerModel.ChangeActivity(availableTriggers.Contains(triggerModel.Platform), MoveMode.Platform);
         }
     }
 

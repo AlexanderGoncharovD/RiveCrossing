@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using PLExternal.Enums;
 using PLExternal.Level;
 using PLExternal.Map;
 using UnityEngine;
@@ -49,30 +50,14 @@ public struct TriggerModel
     /// <summary>
     ///     Изменить активность платформы
     /// </summary>
-    public void ChangeActivity(bool value)
+    public void ChangeActivity(bool value, MoveMode mode)
     {
         Collider.enabled = value;
-        if (TouchPlatform != null)
+
+        if (TouchPlatform != null && mode == MoveMode.Platform)
         {
             TouchPlatform.IsLocked = !value;
         }
-    }
-
-    /// <summary>
-    ///     Изменить активность платформы
-    /// </summary>
-    /// <param name="point">Точка на которой находится персонаж</param>
-    public bool ChangeActivity(LevelPoint point)
-    {
-        if (Platform.Coincidences(point))
-        {
-            ChangeActivity(true);
-            return true;
-        }
-
-        ChangeActivity(false);
-
-        return false;
     }
 
     public static TriggerModel Empty()

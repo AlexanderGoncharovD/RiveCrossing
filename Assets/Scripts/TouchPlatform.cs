@@ -30,12 +30,12 @@ public class TouchPlatform : MonoBehaviour
     /// <summary>
     ///     Позиция перед перемещением
     /// </summary>
-    private Vector3 _startPos;
+    private Vector3 _cahcePosition;
 
     /// <summary>
     ///     Вращение перед перемещением
     /// </summary>
-    private Quaternion _startRot;
+    private Quaternion _cacheRotation;
 
     /// <summary>
     ///     Ссылка на комнонент коллайдера
@@ -231,8 +231,8 @@ public class TouchPlatform : MonoBehaviour
     /// </summary>
     private void CacheFirstPosition()
     {
-        _startPos = transform.position;
-        _startRot = transform.rotation;
+        _cahcePosition = transform.position;
+        _cacheRotation = transform.rotation;
     }
 
     /// <summary>
@@ -240,10 +240,11 @@ public class TouchPlatform : MonoBehaviour
     /// </summary>
     private void RecoveryPosition()
     {
-        transform.position = _startPos;
-        transform.rotation = _startRot;
+        transform.position = _cahcePosition;
+        transform.rotation = _cacheRotation;
         Trigger = _cacheTrigger;
         Trigger.TouchPlatform = this;
+        _levelManager.RecalculateAvailableTriggers();
     }
 
     /// <summary>
