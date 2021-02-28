@@ -39,7 +39,10 @@ public class Trigger : MonoBehaviour
 
     public Platform Platform { get; set; } = new Platform();
 
-    public TouchPlatform TouchPlatform;
+    /// <summary>
+    ///     Платформа, которая находится в этом триггере
+    /// </summary>
+    public TouchPlatform TouchPlatform { get; set; }
 
     #endregion
 

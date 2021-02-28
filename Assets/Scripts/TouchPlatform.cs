@@ -9,6 +9,8 @@ public class TouchPlatform : MonoBehaviour
     #region Private Fields
 
     private bool _isLocked;
+    private Trigger _trigger;
+    private Trigger _cacheTrigger;
 
     /// <summary>
     ///     Перемещается ли платформа
@@ -54,7 +56,19 @@ public class TouchPlatform : MonoBehaviour
     /// <summary>
     ///     Триггер, на котором лежит или, в который вошла платформа
     /// </summary>
-    public Trigger trigger;
+    public Trigger Trigger
+    {
+        get => _trigger;
+        set
+        {
+            if (value != null)
+            {
+                _cacheTrigger = value;
+            }
+
+            _trigger = value;
+        }
+    }
 
     private SpriteRenderer _spriteComponent;
 
@@ -115,7 +129,7 @@ public class TouchPlatform : MonoBehaviour
         var trigger = _gameControl.TriggerModels.First(_ => _.Platform.CoincidencesStrict(Platform));
         if (trigger.TouchPlatform == null)
         {
-            this.trigger = trigger.Trigger;
+            this.Trigger = trigger.Trigger;
             trigger.Trigger.TouchPlatform = this;
         }
     }
@@ -140,23 +154,23 @@ public class TouchPlatform : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Trigger"))
                 {
-                    if (trigger != hit.transform.GetComponent<Trigger>())
+                    if (Trigger != hit.transform.GetComponent<Trigger>())
                     {
-                        trigger?.GetComponent<Trigger>().PlatformExit();
-                        trigger = hit.transform.GetComponent<Trigger>();
-                        trigger.GetComponent<Trigger>().PlatformEnter(this);
+                        Trigger?.GetComponent<Trigger>().PlatformExit();
+                        Trigger = hit.transform.GetComponent<Trigger>();
+                        Trigger.GetComponent<Trigger>().PlatformEnter(this);
                     }
                 }
                 else
                 {
-                    trigger?.GetComponent<Trigger>().PlatformExit();
-                    trigger = null;
+                    Trigger?.GetComponent<Trigger>().PlatformExit();
+                    Trigger = null;
                 }
             }
             else
             {
-                trigger?.GetComponent<Trigger>().PlatformExit();
-                trigger = null;
+                Trigger?.GetComponent<Trigger>().PlatformExit();
+                Trigger = null;
             }
         }
     }
@@ -194,6 +208,7 @@ public class TouchPlatform : MonoBehaviour
         {
             return;
         }
+
         _collider.enabled = true;
         _isDrag = false;
         _gameControl.DragPlatform = null;
@@ -201,7 +216,7 @@ public class TouchPlatform : MonoBehaviour
 
         _animator.Play("Idle");
 
-        if (trigger == null)
+        if (Trigger == null)
         {
             RecoveryPosition();
         }
@@ -227,6 +242,8 @@ public class TouchPlatform : MonoBehaviour
     {
         transform.position = _startPos;
         transform.rotation = _startRot;
+        Trigger = _cacheTrigger;
+        Trigger.TouchPlatform = this;
     }
 
     /// <summary>
@@ -234,9 +251,9 @@ public class TouchPlatform : MonoBehaviour
     /// </summary>
     private void SetNewPosition()
     {
-        transform.rotation = trigger.Rot;
-        transform.position = trigger.Pos;
-        Platform = new Platform(trigger.Platform.First, trigger.Platform.Second);
+        transform.rotation = Trigger.Rot;
+        transform.position = Trigger.Pos;
+        Platform = new Platform(Trigger.Platform.First, Trigger.Platform.Second);
         CacheFirstPosition();
         _gameControl.RecalculateAvailableTriggers();
     }
