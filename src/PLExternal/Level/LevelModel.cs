@@ -116,8 +116,8 @@ namespace PLExternal.Level
             "3KFHRT9",
             "2FACDNLVWYT9",
             "2GQSDAPQST9", // 5
-            "2G-NX GV-KN VX-AK NX-AC KN-CR CR-R9",
-            "3L-BL AB-BC BC-CH HR-CE CH-BC BL-LN LN-N8",
+            "2GVXNKACR9",
+            "3LBCHCECBLN8",
             "2G-GI QT-IX WX-DI IX-QT DI-T9",
             "3L-LV VX-CM LV-AC LM-MR AC-RT CM-JT MR-J7",
             "3K-FK FK-AF AC-CM MW-AC CM-CE AF-EJ EJ-JO JO-O8", //10

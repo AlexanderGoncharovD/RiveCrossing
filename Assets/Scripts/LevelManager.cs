@@ -45,7 +45,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        _generator.LoadLevel(5);
+        _generator.LoadLevel(7);
     }
 
     // Update is called once per frame
@@ -93,36 +93,42 @@ public class LevelManager : MonoBehaviour
         var addPoints = new List<LevelPoint>();
         var newAddedPoints = new List<LevelPoint>(AvailablePoints);
         var checkedTriggers = new List<Platform>();
-        var availableTriggers = new List<Platform>();
+        var availableTriggerPlatforms = new List<Platform>();
 
         do
         {
             addPoints.Clear();
             foreach (var availablePoint in newAddedPoints)
             {
-                var triggers = GetTriggersPlatformFromPoint(availablePoint);
-                if (triggers != null)
+                var triggers = GetTriggersModelFromPoint(availablePoint);
+                if (triggers == null)
                 {
-                    availableTriggers.AddRange(triggers);
-                    foreach (var trigger in triggers)
+                    continue;
+                }
+                
+                foreach (var triggerModel in triggers)
+                {
+                    if (checkedTriggers.Contains(triggerModel.Platform))
                     {
-                        if (checkedTriggers.Contains(trigger))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        if (TriggerHavePlatform(trigger))
+                    if (TriggerHavePlatform(triggerModel.Platform))
+                    {
+                        foreach (var point in triggerModel.Platform.GetPoints())
                         {
-                            foreach (var point in trigger.GetPoints())
+                            if (!addPoints.Contains(point) && !AvailablePoints.Contains(point))
                             {
-                                if (!addPoints.Contains(point) && !AvailablePoints.Contains(point))
-                                {
-                                    addPoints.Add(point);
-                                }
+                                addPoints.Add(point);
                             }
                         }
-                        checkedTriggers.Add(trigger);
+                        availableTriggerPlatforms.Add(triggerModel.Platform);
                     }
+                    else if (!triggerModel.IsCrossed(Platforms.Where(_ => _ != DragPlatform)))
+                    {
+                        availableTriggerPlatforms.Add(triggerModel.Platform);
+                    }
+                    checkedTriggers.Add(triggerModel.Platform);
                 }
             }
 
@@ -134,7 +140,7 @@ public class LevelManager : MonoBehaviour
 
         foreach (var triggerModel in TriggerModels)
         {
-            triggerModel.ChangeActivity(availableTriggers.Contains(triggerModel.Platform), MoveMode.Platform);
+            triggerModel.ChangeActivity(availableTriggerPlatforms.Contains(triggerModel.Platform), MoveMode.Platform);
         }
     }
 
@@ -156,17 +162,17 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    ///     Находит список тригеров соприкасающихся с точкой и возвращает их платформы
+    ///     Находит список тригеров соприкасающихся с точкой и возвращает их модели
     /// </summary>
-    private IEnumerable<Platform> GetTriggersPlatformFromPoint(LevelPoint point)
+    private IEnumerable<TriggerModel> GetTriggersModelFromPoint(LevelPoint point)
     {
-        var triggers = new List<Platform>();
+        var triggers = new List<TriggerModel>();
 
         foreach (var triggerModel in TriggerModels)
         {
             if (triggerModel.Platform.Coincidences(point))
             {
-                triggers.Add(triggerModel.Platform);
+                triggers.Add(triggerModel);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using PLExternal.Enums;
 using PLExternal.Level;
@@ -58,6 +59,60 @@ public struct TriggerModel
         {
             TouchPlatform.IsLocked = !value;
         }
+    }
+
+    /// <summary>
+    ///     Имеется ли пересечение хотя бы с одной платформой
+    /// </summary>
+    /// <param name="platforms">Список платформ, с которыми проверяется пересечение</param>
+    /// <returns></returns>
+    public bool IsCrossed(IEnumerable<TouchPlatform> platforms)
+    {
+        var internalPointsOfTrigger = GetInternalPoints(Platform);
+
+        var internalPointsOfPlatforms = new List<LevelPoint>();
+
+        foreach (var platform in platforms)
+        {
+            internalPointsOfPlatforms.AddRange(GetInternalPoints(platform.Platform));
+        }
+
+        foreach (var point in internalPointsOfTrigger)
+        {
+            if (internalPointsOfPlatforms.Contains(point))
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Находит внутренние точки платформы
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<LevelPoint> GetInternalPoints(Platform platform)
+    {
+        var points = new List<LevelPoint>();
+
+        if (platform.FirstPoint.Row == platform.SecondPoint.Row)
+        {
+            for (var col = platform.FirstPoint.Column + 1; col < platform.SecondPoint.Column; col++)
+            {
+                points.Add(new LevelPoint(platform.FirstPoint.Row, col));
+            }
+        }
+        else if (platform.FirstPoint.Column == platform.SecondPoint.Column)
+        {
+            for (var row = platform.FirstPoint.Row + 1; row < platform.SecondPoint.Row; row++)
+            {
+                points.Add(new LevelPoint(row, platform.FirstPoint.Column));
+            }
+        }
+
+        return points;
     }
 
     public static TriggerModel Empty()
