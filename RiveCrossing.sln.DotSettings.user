@@ -1,0 +1,14 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=29c4219e_002D609b_002D438d_002Db324_002D8ded026b4fe9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LevelModal_Levels_Test #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\PenguinLAB\source\RiveCrossing\tests\Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2b3c6da3_002Debc8_002D42ca_002D9f5b_002D94e9c9b7ac8a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LevelModelTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::51FC3229-2656-4BE9-A77E-8CC5CE5900CB::.NETCoreApp,Version=v3.1::Tests.LevelModelTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9ea57e0e_002D4909_002D460b_002D8bc0_002D1042aad4f1c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LevelModal_Levels_Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::782380EB-EE09-4E43-9F3D-E5D674714319::.NETCoreApp,Version=v3.1::Tests.LevelModelTest.Solutions_LevelConverter_Test&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

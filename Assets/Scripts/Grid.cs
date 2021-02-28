@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PLExternal.Enums;
+using PLExternal.Helper;
+using PLExternal.Level;
+using PLExternal.Map;
 using UnityEngine;
 
 public class Grid
@@ -16,15 +20,15 @@ public class Grid
 	/// <summary>
 	///		Карта точек уровня
 	/// </summary>
-	private List<string> _map;
+	private IEnumerable<string> _map;
 	private List<string> _solution;
-	private List<string[]> _platforms = new List<string[]>();
+	private IEnumerable<IEnumerable<string>> _platforms;
 	private List<GameObject> _points = new List<GameObject>();
 	private Point _startpoint;
 	private Point _finishpoint;
 	private GameControl _gameControl;
 
-	#endregion
+    #endregion
 
 	#region Properties
 
@@ -46,35 +50,34 @@ public class Grid
 	public Point StartPoint => _startpoint;
 	public Point FinishPoint => _finishpoint;
 
+	/// <summary>
+	///		Длины платформ на уровне
+	/// </summary>
+	public List<int> PlatformLengths { get; private set; }
+
+	/// <summary>
+	///		Словарь связи точек триггерами
+	/// </summary>
+	public Dictionary<string, TriggerModel> TriggerLinkMap { get; set; } = new Dictionary<string, TriggerModel>();
+
 	#endregion
 
 	#region .ctor
 
-	public Grid(GameObject pointModel, GameObject platformModel, string map, string solution, string platforms)
+	public Grid(GameObject pointModel, GameObject platformModel, IEnumerable<string> map, IEnumerable<string> solution, IEnumerable<IEnumerable<string>> platforms)
 	{
 		_gameControl = Camera.main.GetComponent<GameControl>();
 		_pointModel = pointModel;
 		_platformModel = platformModel;
-		_map = map.Split(';').ToList();
-		_solution = solution.Split(';').ToList();
-		var strPlatforms = platforms.Split('#').ToList();
-		foreach (var platform in strPlatforms)
-		{
-			_platforms.Add(platform.Split(';').ToArray());
-		}
+        _map = map;
+		_solution = solution.ToList();
+        _platforms = platforms;
+		
+        PlatformLengths = PlatformHelper.GetPlatformLengths(_platforms);
 		GenerationGrid();
 	}
 
-	public Grid(int row, int col, float step, GameObject pointModel)
-	{
-		_row = row;
-		_col = col;
-		_step = step;
-		_pointModel = pointModel;
-		GenerationGrid();
-	}
-
-	#endregion
+    #endregion
 
 	#region Private Methods
 
@@ -98,11 +101,7 @@ public class Grid
 			{
 				if (_map.Any(e => e.Equals($"{r}-{c}")))
 				{
-					var point = MonoBehaviour.Instantiate(_pointModel, position, Quaternion.Euler(90, 0, 0));
-					point.name = $"{r}-{c}";
-					var component = point.GetComponent<Point>();
-					component.Column = c;
-					component.Row = r;
+                    var point = Point.Initialize(_pointModel, position, Quaternion.Euler(90, 0, 0), r, c);
 					_points.Add(point);
 					_gameControl.pointsColliders.Add(point.GetComponent<CapsuleCollider>());
 
@@ -114,13 +113,15 @@ public class Grid
 
 		_startpoint = _points.Last().GetComponent<Point>();
 		_startpoint.Type = PointType.Start;
+        _gameControl.StartPoint = _startpoint.LevelPoint;
 
 		_finishpoint = _points.First().GetComponent<Point>();
 		_finishpoint.Type = PointType.Finish;
+        _gameControl.FinishPoint= _finishpoint.LevelPoint;
 
 		SetNextBackPoints();
 		SetOthersPoints();
-		_points.ForEach(p => p.GetComponent<Point>().GenerateTriggers());
+		_points.ForEach(p => _gameControl.TriggerModels.AddRange(p.GetComponent<Point>().GenerateTriggers(this)));
 		GenerationPlatforms();
 	}
 
@@ -168,92 +169,104 @@ public class Grid
 	{
 		foreach (var item in _platforms)
 		{
-			var onePoint = _points.First(p => p.name.Equals(item[0])).transform;
-			var twoPoint = _points.First(p => p.name.Equals(item[1])).transform;
+			var onePoint = _points.First(p => p.name.Equals(item.First())).transform;
+			var twoPoint = _points.First(p => p.name.Equals(item.Last())).transform;
 			var center = (onePoint.position + twoPoint.position) / 2.0f;
 			var length = Vector3.Distance(onePoint.position, twoPoint.position);
 			var isVertical = onePoint.position.y == twoPoint.position.y;
 
-			var platform = MonoBehaviour.Instantiate(_platformModel, center, Quaternion.Euler(0, 0, isVertical ? 90 : 0));
-			platform.GetComponent<BoxCollider>().size = new Vector3(0.5f, length, 0.5f);
-			platform.GetComponent<TouchPlatform>().Points.SetPoints(onePoint, twoPoint);
-			_gameControl.Platforms.Add(platform.GetComponent<TouchPlatform>().Points);
-		}
+			var platform = TouchPlatform.Initialize(
+                _platformModel, 
+                center, 
+                Quaternion.Euler(0, 0, isVertical ? 90 : 0),
+                length,
+                onePoint, 
+                twoPoint);
+        }
 	}
 
-
-	private List<GameObject> GetOtherPoints(GameObject point, int row, int col)
+	/// <summary>
+	///		Задаёт побочные точки
+	/// </summary>
+	/// <param name="basePoint">Точка для которой ищутся побочные</param>
+	private List<GameObject> GetOtherPoints(GameObject basePoint, int row, int col)
 	{
 		var result = new List<GameObject>();
-		var horizontalPoints = _points.Where(p => p.transform != point.transform);
-		var component = point.GetComponent<Point>();
+		var otherPoints = _points.Where(p => p.transform != basePoint.transform);
+		var component = basePoint.GetComponent<Point>();
 
 		// Если у точки нет ни следующей ни придыдущей точки, занчит она побочная
 		if (component.NextPoint == null && component.BackPoint == null)
 		{
 			component.Type = PointType.Side;
-			//return result;
 		}
 
 		for (int i = row-1; i > 0; i--)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
-			if (po != null)
-			{
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po); 
-				break;
-			}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
+            CheckAndAddPoint(po);
 		}
 		for (int i = row + 1; i < 6; i++)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
-			if (po != null)
-			{
-
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po);
-				break;
-			}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{i}-{col}"));
+            CheckAndAddPoint(po);
 		}
 
 		for (int i = col - 1; i > 0; i--)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
-			if (po != null)
-			{
-
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po);
-				break;
-			}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
+            CheckAndAddPoint(po);
 		}
 		for (int i = col + 1; i < 6; i++)
 		{
-			var po = horizontalPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
-			if (po != null)
-			{
-
-				if (po.transform == component.NextPoint)
-					break;
-				if (po.transform == component.BackPoint)
-					break;
-				result.Add(po);
-				break;
-			}
-		}
+			var po = otherPoints.FirstOrDefault(p => p.name.Equals($"{row}-{i}"));
+            CheckAndAddPoint(po);
+        }
 		return result;
 
+
+        void CheckAndAddPoint(GameObject point)
+        {
+            if (point == null)
+            {
+				return;
+            }
+
+            if (point.transform == component.NextPoint || point.transform == component.BackPoint)
+            {
+				return;
+            }
+
+            for (var c = 1; c < PlatformHelper.GetColLength(new[] {basePoint.name, point.name}); c++)
+            {
+                var baseLevelPoint = PlatformHelper.GetPoint(basePoint.name);
+                var otherLevelPoint = PlatformHelper.GetPoint(point.name);
+                var minLevelPoint = baseLevelPoint.Column > otherLevelPoint.Column ? otherLevelPoint : baseLevelPoint;
+
+                if (otherPoints.Any(_ => _.name == $"{minLevelPoint.Row}-{minLevelPoint.Column + c}"))
+                {
+					return;
+                }
+            }
+
+            for (var r = 1; r < PlatformHelper.GetRowLength(new[] { basePoint.name, point.name }); r++)
+            {
+                var baseLevelPoint = PlatformHelper.GetPoint(basePoint.name);
+                var otherLevelPoint = PlatformHelper.GetPoint(point.name);
+                var minLevelPoint = baseLevelPoint.Row > otherLevelPoint.Row ? otherLevelPoint : baseLevelPoint;
+
+                if (otherPoints.Any(_ => _.name == $"{minLevelPoint.Row + r}-{minLevelPoint.Column}"))
+                {
+                    return;
+                }
+			}
+
+			if (Mathf.CeilToInt(Vector3.Distance(basePoint.transform.position, point.transform.position)) <= PlatformLengths.Max())
+            {
+                result.Add(point);
+			}
+        }
 	}
 
-	#endregion
+    #endregion
 }

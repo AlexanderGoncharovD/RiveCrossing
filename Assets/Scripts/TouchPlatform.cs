@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PLExternal.Map;
 using UnityEngine;
 
 public class TouchPlatform : MonoBehaviour
 {
     #region Private Fields
+
+    private bool _isLocked;
 
     /// <summary>
     ///     Перемещается ли платформа
@@ -53,25 +56,72 @@ public class TouchPlatform : MonoBehaviour
     /// </summary>
     public Trigger trigger;
 
+    private SpriteRenderer _spriteComponent;
+
     #endregion
 
     #region Properties
 
     public bool IsDrag => _isDrag;
 
-    public PlatformPoints Points { get; set; } = new PlatformPoints();
+    public Platform Platform { get; set; } = new Platform();
+
+    /// <summary>
+    ///     Платформа заблокирована для перемещения
+    /// </summary>
+    public bool IsLocked
+    {
+        get => _isLocked;
+        set
+        {
+            _isLocked = value;
+
+            if (value)
+            {
+                _spriteComponent.sprite = _gameControl.LockPlatformsSprites[length - 1];
+                return;
+            }
+            _spriteComponent.sprite = _gameControl.PlatformsSprites[length - 1];
+        }
+    }
 
     #endregion
 
-    private void Start()
+    public static GameObject Initialize(GameObject model, Vector3 position, Quaternion rotation, float length, Transform onePoint, Transform twoPoint)
+    {
+        var platform = MonoBehaviour.Instantiate(model, position, rotation);
+        var component = platform.GetComponent<TouchPlatform>();
+        platform.GetComponent<BoxCollider>().size = new Vector3(0.5f, length, 0.5f);
+        component.Platform = new Platform(onePoint, twoPoint);
+
+        component.Instantiate();
+
+        return platform;
+    }
+
+    public void Instantiate()
     {
         _camera = Camera.main;
         _gameControl = _camera.GetComponent<GameControl>();
         _collider = GetComponent<BoxCollider>();
         _animator = GetComponent<Animator>();
         length = Mathf.CeilToInt(_collider.size.y);
-        transform.GetComponentInChildren<SpriteRenderer>().sprite = _gameControl.PlatformsSprites[length - 1];
+        _spriteComponent = transform.GetComponentInChildren<SpriteRenderer>();
+        _spriteComponent.sprite = _gameControl.PlatformsSprites[length - 1];
         tag = $"Platform{length}";
+
+        _gameControl.Platforms.Add(this);
+
+        var trigger = _gameControl.TriggerModels.First(_ => _.Platform.CoincidencesStrict(Platform));
+        if (trigger.TouchPlatform == null)
+        {
+            this.trigger = trigger.Trigger;
+            trigger.Trigger.TouchPlatform = this;
+        }
+    }
+    
+    private void Start()
+    {
         CacheFirstPosition();
     }
 
@@ -94,7 +144,7 @@ public class TouchPlatform : MonoBehaviour
                     {
                         trigger?.GetComponent<Trigger>().PlatformExit();
                         trigger = hit.transform.GetComponent<Trigger>();
-                        trigger.GetComponent<Trigger>().PlatformeEnter();
+                        trigger.GetComponent<Trigger>().PlatformEnter(this);
                     }
                 }
                 else
@@ -113,29 +163,41 @@ public class TouchPlatform : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (IsLocked)
+        {
+            return;
+        }
         _collider.enabled = false;
         _animator.Play("Move");
-
     }
 
     private void OnMouseDrag()
     {
+        if (IsLocked)
+        {
+            return;
+        }
         _isDrag = true;
-        _gameControl.DragPlatform = this.transform;
-        _gameControl.triggers.ForEach(t =>
+        _gameControl.DragPlatform = this;
+        _gameControl.RecalculateAvailableTriggers();
+        _gameControl.TriggerModels.ForEach(t =>
             {
-                if (Mathf.CeilToInt(t.length) != length)
-                    t.gameObject.SetActive(false);
+                if (Mathf.CeilToInt(t.Length) != length)
+                    t.GameObject.SetActive(false);
             }
         );
     }
 
     private void OnMouseUp()
     {
+        if (IsLocked)
+        {
+            return;
+        }
         _collider.enabled = true;
         _isDrag = false;
         _gameControl.DragPlatform = null;
-        _gameControl.triggers.ForEach(t => t.gameObject.SetActive(true));
+        _gameControl.TriggerModels.ForEach(t => t.GameObject.SetActive(true));
 
         _animator.Play("Idle");
 
@@ -174,7 +236,8 @@ public class TouchPlatform : MonoBehaviour
     {
         transform.rotation = trigger.Rot;
         transform.position = trigger.Pos;
-        Points.SetPoints(trigger.Points.First, trigger.Points.Second);
+        Platform = new Platform(trigger.Platform.First, trigger.Platform.Second);
         CacheFirstPosition();
+        _gameControl.RecalculateAvailableTriggers();
     }
 }

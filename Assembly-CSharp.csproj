@@ -64,15 +64,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AppDebug.cs" />
-    <Compile Include="Assets\Scripts\enums\PointType.cs" />
     <Compile Include="Assets\Scripts\GameControl.cs" />
     <Compile Include="Assets\Scripts\Grid.cs" />
     <Compile Include="Assets\Scripts\LevelGenerator.cs" />
-    <Compile Include="Assets\Scripts\PlatformPoints.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Point.cs" />
     <Compile Include="Assets\Scripts\TouchPlatform.cs" />
     <Compile Include="Assets\Scripts\Trigger.cs" />
+    <Compile Include="Assets\Scripts\TriggerModel.cs" />
     <Compile Include="Assets\Scripts\Water.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -286,6 +285,9 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="PLExternal">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/Library/PLExternal.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>

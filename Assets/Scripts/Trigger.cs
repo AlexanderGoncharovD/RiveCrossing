@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PLExternal.Map;
 using UnityEngine;
 
 /// <summary>
@@ -36,17 +37,23 @@ public class Trigger : MonoBehaviour
     /// </summary>
     public Quaternion Rot => _rot;
 
-    public PlatformPoints Points { get; set; } = new PlatformPoints();
+    public Platform Platform { get; set; } = new Platform();
+
+    public TouchPlatform TouchPlatform;
 
     #endregion
 
     #region Private Methods
 
+    private void Awake()
+    {
+        _gameControl = Camera.main.GetComponent<GameControl>();
+    }
+
     private void Start()
     {
         _rot = transform.rotation;
         _pos = transform.position;
-        _gameControl = Camera.main.GetComponent<GameControl>();
         GetComponentInChildren<SpriteRenderer>().sprite = _gameControl.PlatformsSprites[length - 1];
     }
 
@@ -57,11 +64,12 @@ public class Trigger : MonoBehaviour
     /// <summary>
     ///     Платформа попала в триггер
     /// </summary>
-    public void PlatformeEnter()
+    public void PlatformEnter(TouchPlatform touchPlatform)
     {
         if (_gameControl.DragPlatform != null)
         {
             GetComponentInChildren<SpriteRenderer>().enabled = true;
+            TouchPlatform = touchPlatform;
         }
     }
 
@@ -71,6 +79,7 @@ public class Trigger : MonoBehaviour
     public void PlatformExit()
     {
         GetComponentInChildren<SpriteRenderer>().enabled = false;
+        TouchPlatform = null;
     }
 
     #endregion

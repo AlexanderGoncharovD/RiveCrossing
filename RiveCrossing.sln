@@ -3,6 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{39D09D8F-828C-807D-FF4D-A0577F2C5D6C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{10F916B1-7A8F-4751-934D-6A5DF0C2AB0B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLExternal", "src\PLExternal\PLExternal.csproj", "{06639F0E-23D6-4385-8887-D788075BC0D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3E016E17-B8D6-410A-A0E4-3B6EC173512C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "tests\Tests\Tests.csproj", "{782380EB-EE09-4E43-9F3D-E5D674714319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,9 +21,21 @@ Global
 		{39D09D8F-828C-807D-FF4D-A0577F2C5D6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39D09D8F-828C-807D-FF4D-A0577F2C5D6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39D09D8F-828C-807D-FF4D-A0577F2C5D6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06639F0E-23D6-4385-8887-D788075BC0D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06639F0E-23D6-4385-8887-D788075BC0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06639F0E-23D6-4385-8887-D788075BC0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06639F0E-23D6-4385-8887-D788075BC0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{782380EB-EE09-4E43-9F3D-E5D674714319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{782380EB-EE09-4E43-9F3D-E5D674714319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{782380EB-EE09-4E43-9F3D-E5D674714319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{782380EB-EE09-4E43-9F3D-E5D674714319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{06639F0E-23D6-4385-8887-D788075BC0D8} = {10F916B1-7A8F-4751-934D-6A5DF0C2AB0B}
+		{782380EB-EE09-4E43-9F3D-E5D674714319} = {3E016E17-B8D6-410A-A0E4-3B6EC173512C}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj

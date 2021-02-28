@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PLExternal.Enums;
+using PLExternal.Level;
+using PLExternal.Map;
 using UnityEngine;
 
 public class Point : MonoBehaviour
 {
 	#region Private Fields
 
+    private LevelPoint _levelPoint;
+
 	private Transform _nextPoint;
+    private GameControl _gameControl;
+    private Camera _camera;
 
 	/// <summary>
 	///		Блок установки платформы
@@ -67,12 +74,34 @@ public class Point : MonoBehaviour
 	/// </summary>
 	public int Row { get; set; }
 
+    public LevelPoint LevelPoint => _levelPoint;
+
 	/// <summary>
 	///		Длинная до NextPoint
 	/// </summary>
 	public int Length => Mathf.CeilToInt(_lengthWay);
 
 	#endregion
+
+    public static GameObject Initialize(GameObject model, Vector3 position, Quaternion rotation, int row, int col)
+    {
+        var point = MonoBehaviour.Instantiate(model, position, rotation);
+        point.name = $"{row}-{col}";
+        var component = point.GetComponent<Point>();
+        component.Column = col;
+        component.Row = row;
+		component._levelPoint = new LevelPoint(row, col);
+		component.Instantiate();
+
+        return point;
+    }
+
+    public void Instantiate()
+    {
+        _camera = Camera.main;
+        _gameControl = _camera.GetComponent<GameControl>();
+        _gameControl.LevelPoints[transform] = _levelPoint;
+    }
 
 	#region Private Methods
 
@@ -126,7 +155,7 @@ public class Point : MonoBehaviour
 	/// <param name="isSide">
 	///		Является ли точка побочной
 	/// </param>
-	private void CreateTrigger(Transform point, bool isSide = false)
+	private TriggerModel CreateTrigger(Transform point, bool isSide = false)
 	{
 		var center = (point.position + transform.position) / 2.0f;
 		var isVertical = point.position.y == transform.position.y;
@@ -139,9 +168,12 @@ public class Point : MonoBehaviour
 		}
 
 		trigger.GetComponent<BoxCollider>().size = new Vector3(1.0f, length, 0.25f);
-		trigger.GetComponent<Trigger>().length = (int)length;
-		trigger.GetComponent<Trigger>().Points.SetPoints(point, transform);
-	}
+        var triggerComponent = trigger.GetComponent<Trigger>();
+        triggerComponent.length = (int)length;
+        triggerComponent.Platform = new Platform(point, transform);
+
+        return new TriggerModel(trigger, triggerComponent);
+    }
 
 	#endregion
 
@@ -150,20 +182,45 @@ public class Point : MonoBehaviour
 	/// <summary>
 	///		Генерировать блоки для установки платформ
 	/// </summary>
-	public void GenerateTriggers()
+	public IEnumerable<TriggerModel> GenerateTriggers(Grid grid)
 	{
+		var triggerModel = new List<TriggerModel>();
 		if (NextPoint != null)
-		{
-			CreateTrigger(NextPoint);
+        {
+			var component = NextPoint.GetComponent<Point>();
+			if (TryCreate(NextPoint, component, false, out var trigger))
+            {
+                triggerModel.Add(trigger);
+            }
 		}
 
 		if (OtherPoints.Any())
 		{
 			foreach (var otherPoint in OtherPoints)
 			{
-				CreateTrigger(otherPoint, true);
-			}
+				var component = otherPoint.GetComponent<Point>();
+                if (TryCreate(otherPoint, component, true, out var trigger))
+                {
+                    triggerModel.Add(trigger);
+                }
+            }
 		}
+
+        return triggerModel;
+
+        bool TryCreate(Transform pointTransform, Point point, bool isSide, out TriggerModel trigger)
+        {
+            if (!grid.TriggerLinkMap.ContainsKey($"{Row}-{Column};{point.Row}-{point.Column}")
+                && !grid.TriggerLinkMap.ContainsKey(
+                    $"{point.Row}-{point.Column};{Row}-{Column}"))
+            {
+                trigger = CreateTrigger(pointTransform, isSide);
+                grid.TriggerLinkMap[$"{Row}-{Column};{point.Row}-{point.Column}"] = trigger;
+                return true;
+            }
+			trigger = TriggerModel.Empty();
+            return false;
+        }
 	}
 
 	#endregion

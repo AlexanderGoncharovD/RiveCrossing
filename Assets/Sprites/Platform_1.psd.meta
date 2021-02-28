@@ -9,6 +9,9 @@ TextureImporter:
     21300008: Penguin
     21300010: Penguin_glide
     21300012: IceFloe_Start-Finish
+    21300014: Platform_3_Lock
+    21300016: Platform_1_lock
+    21300018: Platform_2_lock
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -70,7 +73,7 @@ TextureImporter:
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -81,7 +84,7 @@ TextureImporter:
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -92,7 +95,7 @@ TextureImporter:
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -182,46 +185,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Penguin
-      rect:
-        serializedVersion: 2
-        x: 682
-        y: 1200
-        width: 327
-        height: 357
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18c7c489acaf9564ca152b9be2d77312
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Penguin_glide
-      rect:
-        serializedVersion: 2
-        x: 1080
-        y: 974
-        width: 397
-        height: 579
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c407b5efe9cf82b4a8ff5d264af8c3ce
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: IceFloe_Start-Finish
       rect:
         serializedVersion: 2
@@ -237,6 +200,66 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7124f19029abfa943830c751fae81204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Platform_3_Lock
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 10
+        width: 340
+        height: 1412
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 693c1494718fb5e49943b9b3ed67720d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Platform_1_lock
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 0
+        width: 340
+        height: 420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1476ebe56281f3e4ab3990a59158963a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Platform_2_lock
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 522
+        width: 340
+        height: 900
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1672179d7c2b62e4aa6435665f6d4e57
       vertices: []
       indices: 
       edges: []

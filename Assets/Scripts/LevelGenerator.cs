@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PLExternal.Level;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
@@ -30,19 +31,21 @@ public class LevelGenerator : MonoBehaviour
 	/// <summary>
 	///		Карта уровня
 	/// </summary>
-	private string _map = /*"6-1;3-1;3-3;2-3;4-1;0-3;4-3"*/ "6-1;5-1;5-2;5-3;5-4;4-2;4-3;3-3;3-0;2-4;2-1;1-4;1-2;0-3";
+	private IEnumerable<string> _map;
 
-	/// <summary>
-	///		Решение уровня
-	/// </summary>
-	private string _solution = /*"6-1;4-1;3-1;3-3;2-3;0-3"*/ "6-1;5-1;5-2;5-3;4-3;3-3;0-3";
+    /// <summary>
+    ///		Решение уровня
+    /// </summary>
+    private IEnumerable<string> _solution;
 
 	/// <summary>
 	///		Расположение платформ
 	/// </summary>
-	private string _platforms = "6-1;5-1#5-4;2-4#2-4;1-4";
+	private IEnumerable<IEnumerable<string>> _platforms;
 
 	private Camera _camera;
+    private GameControl _gameControl;
+    private LevelConverter _levelConverter;
 
 	#endregion
 
@@ -57,17 +60,21 @@ public class LevelGenerator : MonoBehaviour
 	private void Start()
 	{
 		_camera = Camera.main;
-		LoadLevel();
+		_levelConverter = new LevelConverter();
+		LoadLevel(5);
 		SpawnPlayer();
 	}
 
 	/// <summary>
 	///		Загрузить игровой уровень
 	/// </summary>
-	private void LoadLevel()
-	{
-		_grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
-		_camera.GetComponent<GameControl>().UpdateTriggerList();
+	private void LoadLevel(int level)
+    {
+        _gameControl = _camera.GetComponent<GameControl>();
+        _map = _levelConverter.GetLevelByNumber(level);
+        _platforms = _levelConverter.GetLevelPlatformsByNumber(level);
+        _solution = _levelConverter.GetLevelSolutionByNumber(level);
+        _grid = new Grid(_pointModel, _platformModel, _map, _solution, _platforms);
 	}
 
 	/// <summary>
