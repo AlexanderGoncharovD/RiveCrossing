@@ -12,6 +12,7 @@ TextureImporter:
     21300014: Platform_3_Lock
     21300016: Platform_1_lock
     21300018: Platform_2_lock
+    21300020: Add
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -260,6 +261,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1672179d7c2b62e4aa6435665f6d4e57
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Add
+      rect:
+        serializedVersion: 2
+        x: 1288
+        y: 1786
+        width: 248
+        height: 314
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de6e56cc275ba7146a39d40cbd0e984d
       vertices: []
       indices: 
       edges: []
