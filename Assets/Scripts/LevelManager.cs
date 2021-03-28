@@ -99,6 +99,8 @@ public class LevelManager : MonoBehaviour
     public void GiveHelpPlatformButtonHandle()
     {
         _isNeedHelp = true;
+        ChangeEnabledTriggerPlatforms(false);
+
         var triggerModels = TriggerModels
             .Where(model => model.TouchPlatform == null && !model.IsCrossed(Platforms));
 
