@@ -93,6 +93,15 @@ namespace PLExternal.Map
             return Coincidences(platform.FirstPoint) && Coincidences(platform.SecondPoint);
         }
 
+        public List<string> ToStringList()
+        {
+            return new List<string>
+            {
+                FirstPoint.ToString(),
+                SecondPoint.ToString()
+            };
+        }
+
         public override string ToString()
         {
             return $"{FirstPoint};{SecondPoint}";

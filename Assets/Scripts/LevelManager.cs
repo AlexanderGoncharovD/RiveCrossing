@@ -39,6 +39,13 @@ public class LevelManager : MonoBehaviour
     public Dictionary<Transform, LevelPoint> LevelPoints = new Dictionary<Transform, LevelPoint>();
     public LevelModelHelper Helper { get; private set; }
 
+    private bool _isNeedHelp = false;
+
+    /// <summary>
+    ///     Использует ли пользователь в данный момент подсказку
+    /// </summary>
+    public bool IsNeedHelp => _isNeedHelp;
+
     private void Awake()
     {
         settings = new Settings();
@@ -84,6 +91,39 @@ public class LevelManager : MonoBehaviour
     public void PlayerInitialized()
     {
         RecalculateAvailableTriggers();
+    }
+
+    /// <summary>
+    ///     Выдать игроку вспомогательную платформу
+    /// </summary>
+    public void GiveHelpPlatformButtonHandle()
+    {
+        _isNeedHelp = true;
+        var triggerModels = TriggerModels
+            .Where(model => model.TouchPlatform == null && !model.IsCrossed(Platforms));
+
+        foreach (var triggerModel in triggerModels)
+        {
+            triggerModel.ActivateForHelp();
+        }
+    }
+
+    /// <summary>
+    ///     Указан триггер, на который нужно сгенерировать платформу
+    /// </summary>
+    public void PlatformForHelpSelected(Trigger trigger)
+    {
+        if (IsNeedHelp)
+        {
+            var triggerModel = TriggerModels.First(_ => _.Trigger == trigger);
+            _generator.CreatePlatform(triggerModel.Platform);
+            _isNeedHelp = false;
+            foreach (var model in TriggerModels)
+            {
+                model.DeactivateForHelp();
+            }
+            RecalculateAvailableTriggers();
+        }
     }
 
     /// <summary>

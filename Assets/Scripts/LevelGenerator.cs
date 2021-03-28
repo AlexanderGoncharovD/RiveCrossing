@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using PLExternal.Level;
+using PLExternal.Map;
 using UnityEngine;
 
 public class LevelGenerator
@@ -33,6 +34,11 @@ public class LevelGenerator
         _manager = manager;
         _converter = new LevelConverter();
 	}
+
+    public void CreatePlatform(Platform platformModel)
+    {
+		_grid.CreatePlatform(platformModel.ToStringList());
+    }
 	
 	#region Private Methods
 	

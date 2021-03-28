@@ -169,20 +169,29 @@ public class Grid
 	{
 		foreach (var item in _platforms)
 		{
-			var onePoint = _points.First(p => p.name.Equals(item.First())).transform;
-			var twoPoint = _points.First(p => p.name.Equals(item.Last())).transform;
-			var center = (onePoint.position + twoPoint.position) / 2.0f;
-			var length = Vector3.Distance(onePoint.position, twoPoint.position);
-			var isVertical = onePoint.position.y == twoPoint.position.y;
-
-			var platform = TouchPlatform.Initialize(
-                _platformModel, 
-                center, 
-                Quaternion.Euler(0, 0, isVertical ? 90 : 0),
-                length,
-                onePoint, 
-                twoPoint);
+			CreatePlatform(item);
         }
+	}
+
+	/// <summary>
+	///		Создать платформу по списку координатам
+	/// </summary>
+	/// <param name="platformPoints">Координаты первой и второй точки платформы</param>
+    public void CreatePlatform(IEnumerable<string> platformPoints)
+    {
+        var onePoint = _points.First(p => p.name.Equals(platformPoints.First())).transform;
+        var twoPoint = _points.First(p => p.name.Equals(platformPoints.Last())).transform;
+        var center = (onePoint.position + twoPoint.position) / 2.0f;
+        var length = Vector3.Distance(onePoint.position, twoPoint.position);
+        var isVertical = onePoint.position.y == twoPoint.position.y;
+
+        var platform = TouchPlatform.Initialize(
+            _platformModel,
+            center,
+            Quaternion.Euler(0, 0, isVertical ? 90 : 0),
+            length,
+            onePoint,
+            twoPoint);
 	}
 
 	/// <summary>

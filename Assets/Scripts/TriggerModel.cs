@@ -47,7 +47,31 @@ public struct TriggerModel
         Trigger = trigger;
         Collider = obj?.GetComponent<BoxCollider>();
     }
-    
+
+    /// <inheritdoc cref="Trigger.ActivateGlow"/>
+    public void ActivateGlow() => Trigger.ActivateGlow();
+
+    /// <inheritdoc cref="Trigger.DeactivateGlow"/>
+    public void DeactivateGlow() => Trigger.DeactivateGlow();
+
+    /// <summary>
+    ///     Активировать платформу для помощи прохождения уровня
+    /// </summary>
+    public void ActivateForHelp()
+    {
+        Trigger.ActivateGlow();
+        Collider.enabled = true;
+    }
+
+    /// <summary>
+    ///     Деактивировать платформу для помощи прохождения уровня
+    /// </summary>
+    public void DeactivateForHelp()
+    {
+        Trigger.DeactivateGlow();
+        Collider.enabled = false;
+    }
+
     /// <summary>
     ///     Изменить активность платформы
     /// </summary>

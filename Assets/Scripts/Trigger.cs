@@ -65,13 +65,23 @@ public class Trigger : MonoBehaviour
     #region Public Methods
 
     /// <summary>
+    ///     Подсветить место установки платформы
+    /// </summary>
+    public void ActivateGlow() => GetComponentInChildren<SpriteRenderer>().enabled = true;
+
+    /// <summary>
+    ///     Отключить подсветку места установки платформы
+    /// </summary>
+    public void DeactivateGlow() => GetComponentInChildren<SpriteRenderer>().enabled = false;
+
+    /// <summary>
     ///     Платформа попала в триггер
     /// </summary>
     public void PlatformEnter(TouchPlatform touchPlatform)
     {
         if (_levelManager.DragPlatform != null)
         {
-            GetComponentInChildren<SpriteRenderer>().enabled = true;
+            ActivateGlow();
             TouchPlatform = touchPlatform;
         }
     }
@@ -81,8 +91,14 @@ public class Trigger : MonoBehaviour
     /// </summary>
     public void PlatformExit()
     {
-        GetComponentInChildren<SpriteRenderer>().enabled = false;
+        DeactivateGlow();
         TouchPlatform = null;
+    }
+
+
+    public void OnMouseDown()
+    {
+        _levelManager.PlatformForHelpSelected(this);
     }
 
     #endregion
