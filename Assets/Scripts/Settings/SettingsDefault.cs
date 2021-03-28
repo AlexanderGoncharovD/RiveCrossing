@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Assets.Scripts.Settings
+{
+    public static class SettingsDefault
+    {
+        public static readonly bool hasBannerAds = true;
+        public static readonly bool hasRewardAds = true;
+    }
+}

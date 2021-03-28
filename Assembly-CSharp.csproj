@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Settings\Settings.cs" />
     <Compile Include="Assets\Scripts\Settings\SettingsAds.cs" />
     <Compile Include="Assets\Scripts\Settings\SettingsBase.cs" />
+    <Compile Include="Assets\Scripts\Settings\SettingsDefault.cs" />
     <Compile Include="Assets\Scripts\TouchPlatform.cs" />
     <Compile Include="Assets\Scripts\Trigger.cs" />
     <Compile Include="Assets\Scripts\TriggerModel.cs" />
@@ -295,6 +296,9 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="PL.SDK">
+      <HintPath>C:/Users/PenguinLAB/source/RiveCrossing/Assets/Library/PL.SDK.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/2018.4.21f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

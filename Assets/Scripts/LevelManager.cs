@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Helper;
+using Assets.Scripts.Settings;
 using PLExternal;
 using PLExternal.Enums;
 using PLExternal.Map;
@@ -13,6 +14,7 @@ using UnityEngine.Video;
 [RequireComponent(typeof(LevelModelHelper))]
 public class LevelManager : MonoBehaviour
 {
+    public Settings settings;
 
     private LevelGenerator _generator;
     public List<CapsuleCollider> pointsColliders = new List<CapsuleCollider>();
@@ -39,6 +41,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        settings = new Settings();
         Helper = GetComponent<LevelModelHelper>();
         _generator = new LevelGenerator(this);
     }

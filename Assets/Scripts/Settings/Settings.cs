@@ -24,11 +24,5 @@ namespace Assets.Scripts.Settings
         {
             Ads = new SettingsAds();
         }
-
-        public override void RestoreToDefault()
-        {
-            Ads.RestoreToDefault();
-        }
-
     }
 }

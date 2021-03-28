@@ -57,13 +57,17 @@ namespace Assets.Scripts.Settings
         
         public override void Load()
         {
-            HasBannerAds = bool.Parse(PlayerPrefs.GetString(nameof(HasBannerAds)));
-            HasRewardAds = bool.Parse(PlayerPrefs.GetString(nameof(HasRewardAds)));
-        }
 
-        public override void RestoreToDefault()
-        {
-            throw new NotImplementedException();
+            if (!bool.TryParse(PlayerPrefs.GetString(nameof(HasBannerAds)), out _hasBannerAds))
+            {
+                HasBannerAds = SettingsDefault.hasBannerAds;
+            }
+
+            if (!bool.TryParse(PlayerPrefs.GetString(nameof(HasRewardAds)), out _hasRewardAds))
+            {
+                HasRewardAds = SettingsDefault.hasRewardAds;
+            }
+
         }
     }
 }
